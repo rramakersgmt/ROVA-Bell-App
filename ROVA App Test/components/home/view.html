@@ -1,7 +1,27 @@
-<div data-role="view" data-title="Home View" data-layout="main" data-model="app.home" data-show="app.home.onShow" data-after-show="app.home.afterShow">
+<div data-role="view" data-title="Wegingen" data-layout="main" data-model="app.home" data-show="app.home.onShow" data-after-show="app.home.afterShow">
 
     <!-- START_CUSTOM_CODE_home -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
 
+
     <!-- END_CUSTOM_CODE_home -->
+    <form class="km-filter-form custom-filter">
+
+
+        <div class="km-filter-wrap">
+            <input type="serach" placeholder="Search..." data-bind="{events:{keyup: homeModel.searchChange}}">
+        </div>
+    </form>
+    <ul data-role="listview" data-auto-bind="false" data-style="inset" data-template="homeModelTemplate" data-bind="{ source: homeModel.dataSource, events: {click: homeModel.itemClick} }" data-pull-to-refresh="true" data-endless-scroll="false">
+    </ul>
+    <!-- START_CUSTOM_CODE_homeModel -->
+    <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
+    <!-- END_CUSTOM_CODE_homeModel -->
+    <script type="text/x-kendo-template" id="homeModelTemplate">
+        <div class="image-with-text">
+            <h3>#: data['bonnr'] #</h3>
+
+        </div>
+        <p class="editableListItem"><span>Afval</span><span>#: data['afval_omschr'] #</span></p>
+    </script>
 </div>

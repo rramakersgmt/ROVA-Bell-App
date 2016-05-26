@@ -1,0 +1,71 @@
+<div data-role="view" data-title="Edit" data-model="app.home.editItemViewModel" data-bind="events: { show: onShow }" id="homeModelEditItemView">
+    <header data-role="header">
+        <div data-role="navbar" class="header-text">
+            <span style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; display: block; margin-left: 70px; margin-right: 70px;" data-role="view-title">Edit</span>
+            <a data-role="backbutton" data-align="left">Cancel</a>
+            <a data-role="button" data-align="right" data-bind="events: { click: onSaveClick }">Save</a>
+        </div>
+    </header>
+    <!-- START_CUSTOM_CODE_homeModel -->
+    <!-- END_CUSTOM_CODE_homeModel -->
+    <div id="editableListForm11" class="form-view">
+        <form>
+            <ul class="form-content" data-role="listview" data-style="inset">
+                <li class="form-content-item">
+                    <p class="editableListItem">
+
+                        <label><span>Bonnummer</span>
+                            <span id="bonnr" data-bind="text: itemData.bonnr"></span>
+                        </label>           
+                  	</p>
+                    <p class="editableListItem">
+						<label>
+                            <span>Afval type</span>
+                            <div id="afval_type" data-bind="text: itemData.afval_type, value:itemData.afval_type"></div>
+                    	</label>
+                  	</p>
+				</li>
+                <li class="form-content-item">
+                    <p class="editableListItem">
+						<label>
+                            <span style="width: 60px;">Afval</span>
+                        	<span><select id="DLafval" data-bind="value: itemData.afval" data-role="dropdownlist"></select></span>
+                        	<!--span><select id="DLafval" data-bind="click: setListItems, value: itemData.afval" data-role="dropdownlist"></select></span-->
+                    	</label>
+                  	</p>
+				</li>
+            </ul>
+        </form>
+        <!-- START_CUSTOM_CODE_editableListForm11 -->
+        <script type="text/javascript">
+			var afval_typeList = [
+                { afval_type: "C1" },
+                { afval_type: "C2" },
+                { afval_type: "C3" }
+            ];
+            var afvalList = afvalDataSource.view();
+
+            $(document).ready(function(){
+
+
+                //nsole.log(temp.children);
+                //r temp2= dataItem["afval_type"].Text;
+//                var temp2=temp.toString();
+                //nsole.log(temp2);
+                
+  //                  var c = document.getElementsByTagName("BUTTON")[0];
+    //var x = c.childNodes[0].nodeValue;  
+                // http://www.w3schools.com/jsref/dom_obj_span.asp
+                    var listItems= "";
+
+                    for (var i = 0; i < afvalList.length; i++){
+                        listItems+= "<option value='" + afvalList[i].afval_id + "'>" + afvalList[i].afval_omschr + "</option>";
+                    }
+                    $("#DLafval").html(listItems);
+            }); 
+
+            
+        </script>
+        <!-- END_CUSTOM_CODE_editableListForm11 -->
+    </div>
+</div>
