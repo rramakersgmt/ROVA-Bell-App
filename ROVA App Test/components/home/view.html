@@ -8,27 +8,36 @@
             <span data-role="view-title"></span>
             <a data-align="right" data-role="button" class="nav-button" href="#settings">Settings</a>
         </div>
-        </header>
-            <footer data-role="footer">
-            <div data-role="tabstrip">
-	            <a data-bind="click: homeModel.scanBack" data-icon="camera">Scan Barcode</a>
-            </div>
-        </footer>
-      	
-    	<div class="container">
-		          
-        <form class="km-filter-form custom-filter">
-            <div class="km-filter-wrap">
+         <!--form class="km-filter-form custom-filter">
+         	<div class="km-filter-wrap">
                 <input type="search" placeholder="Search..." data-bind="{events:{keyup: homeModel.searchChange}}">
             </div>
-        </form>
-          
-        <div data-role="scroller" class="scroller-content">
-		    <ul data-role="listview" data-auto-bind="false" data-style="inset" data-template="homeModelTemplate" data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" data-pull-to-refresh="true" data-endless-scroll="false">
+        </form--> 
+    </header>
+    <footer data-role="footer">
+        <div data-role="tabstrip">
+            <a data-bind="click: homeModel.scanBack" data-icon="camera">Scan Barcode</a>
         </div>
+    </footer>
+      	
+    <!--div class="container">
+         <form class="km-filter-form custom-filter">
+         	<div class="km-filter-wrap">
+                <input type="search" placeholder="Search..." data-bind="{events:{keyup: homeModel.searchChange}}">
+            </div>
+        </form> 
+        <div data-role="scroller" class="scroller-content">
+            <ul data-role="listview" data-auto-bind="false" data-style="inset" data-template="homeModelTemplate" data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" data-pull-to-refresh="true" data-endless-scroll="false">
+        </div>      
+    </div-->
 
-      </div>
+    <div data-role="scroller" class="scroller-content">
+        <ul data-role="listview" data-auto-bind="false" data-style="inset" data-template="homeModelTemplate" data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" data-pull-to-refresh="true" data-endless-scroll="false">
     </div>      
+    
+
+
+    
     
     <!-- START_CUSTOM_CODE_homeModel -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
@@ -49,4 +58,31 @@
         </div>
         <p class="editableListItem"><span style="width: 50px;">Afval</span><span align="right" style="width: 210px;"">#: data['afval_omschr'] #</span></p>
     </script>
-</div>
+    <style scoped>
+      .container {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        display: -moz-box;
+        -moz-box-orient: vertical;
+      }
+
+      #scroller-view .scroller-content {
+        -webkit-box-flex:1;
+        -moz-box-flex: 1;
+      }
+      .search {
+        -webkit-box-flex: 0%; /* setting the search div to get 0% of the remaining window value  */
+        -moz-box-flex:  0%;
+      }
+      .static{
+        -webkit-box-flex: 0%; /* setting the static div to get 0% of the remaining window value  */
+        -moz-box-flex:  0%;
+        line-height:50px;
+        vertical-align:middle;
+        text-align:center;
+        font-size:18px;
+        background-color:#e15613;
+        color:#fff;
+      }
+    </style>
+    </div>

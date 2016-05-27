@@ -186,10 +186,9 @@ app.home = kendo.observable({
                 fetchFilteredData(homeModel.get('paramFilter'), searchFilter);
             },
             itemClick: function(e) {
-                var afvalDataSource = homeModel.get('afvalDataSource'),
-                    itemData = wegingDataSource.getByUid(e.dataItem.uid);
+                var afvalDataSource = homeModel.get('afvalDataSource');
                 
-                afvalDataSource.read({afval_type: itemData.afval_type});
+                afvalDataSource.read({afval_type: e.dataItem.afval_type});
 				this.set('afvalDataSource', afvalDataSource)
                 
                 app.mobileApp.navigate('#components/home/edit.html?uid=' + e.dataItem.uid);
@@ -232,9 +231,7 @@ app.home = kendo.observable({
 
             wegingDataSource.sync();
         },
-        onScanClick: function(e) {
-            alert("onScanClick");
-        }
+
     }));
 
     if (typeof dataProvider.sbProviderReady === 'function') {
