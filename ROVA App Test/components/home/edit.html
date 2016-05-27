@@ -13,24 +13,53 @@
             <ul class="form-content" data-role="listview" data-style="inset">
                 <li class="form-content-item">
                     <p class="editableListItem">
-
                         <label><span>Bonnummer</span>
-                            <span id="bonnr" data-bind="text: itemData.bonnr"></span>
+                            <span align="right" data-bind="text: itemData.bonnr"></span>
                         </label>           
                   	</p>
                     <p class="editableListItem">
-						<label>
-                            <span>Afval type</span>
-                            <span id="afval_type" data-bind="text: itemData.afval_type"></span>
-                    	</label>
+                        <label><span>Datum</span>
+                            <span align="right" data-bind="text: itemData.datum"></span>
+                        </label>           
+                  	</p>
+                    <p class="editableListItem">
+                        <label><span>Gewicht</span>
+                            <span align="right" data-format="####0 kg" data-bind="text: itemData.inweging"></span>
+                        </label>           
+                  	</p>
+                    <p class="editableListItem">
+                        <label><span>Quotum</span>
+                            <span align="right" data-format="##0 kg" data-bind="text: itemData.quotum"></span>
+                        </label>           
+                  	</p>
+                    <p class="editableListItem">
+                        <label><span>Postcode</span>
+                            <span align="right" data-bind="text: itemData.postcode"></span>
+                        </label>           
+                  	</p>
+                    <p class="editableListItem">
+                        <label><span>Gemeente</span>
+                            <span align="right" data-bind="text: itemData.gemeente"></span>
+                        </label>           
+                  	</p>
+                    <p class="editableListItem">
+                        <label><span>Straat</span>
+                            <span align="right" data-bind="text: itemData.straat"></span>
+                        </label>           
+                  	</p>
+                    <p class="editableListItem">
+                        <label><span>Tarief per kilo</span>
+                            <span align="right" data-format="c2" data-bind="text: itemData.afval_prijs"></span>
+                        </label>           
                   	</p>
 				</li>
-                <li class="form-content-item">
+            </ul>
+            <ul id="myform" data-role="listview" data-style="inset">
+                <li>
                     <p class="editableListItem">
 						<label>
                             <span style="width: 60px;">Afval</span>
                         	<span><select data-value-field="afval_id" data-text-field="afval_omschr" data-role="dropdownlist" data-bind="source: homeModel.afvalcodes, value: itemData.afval"></select> </span>
-                            </span>
                     	</label>
                   	</p>
 				</li>
