@@ -34,7 +34,7 @@ app.home = kendo.observable({
                 dataSource.filter({});
             }
         },
-        dataSourceOptions = {
+        wegingenDataSourceOptions = {
             transport: {
                 read: {
                     url: "http://clearweigh.gmt.nl/demo/wegingen",
@@ -79,7 +79,7 @@ app.home = kendo.observable({
             },
         },
 
-        dataSource = new kendo.data.DataSource(dataSourceOptions),
+        dataSource = new kendo.data.DataSource(wegingenDataSourceOptions),
         homeModel = kendo.observable({
             dataSource: dataSource,
             searchChange: function(e) {
