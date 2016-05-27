@@ -111,6 +111,64 @@ app.home = kendo.observable({
         afvalDataSource = new kendo.data.DataSource(afvalDataSourceOptions),
         wegingDataSource = new kendo.data.DataSource(wegingenDataSourceOptions),
         homeModel = kendo.observable({
+
+            scanBack: function () {
+                homeModel.scan(false, false);
+            },
+
+            scanBackFlip: function () {
+                homeModel.scan(false, true);
+            },
+
+            scanFront: function () {
+                homeModel.scan(true, false);
+            },
+
+            scanFrontFlip: function () {
+                homeModel.scan(true, true);
+            },
+
+            scan: function (preferFrontCamera, showFlipCameraButton) {
+                if (!homeModel.checkSimulator()) {
+                    cordova.plugins.barcodeScanner.scan(
+
+                        // success callback function
+                        function (result) {
+                            // wrapping in a timeout so the dialog doesn't free the app
+                            setTimeout(function() {
+                                alert("We got a barcode\n" +
+                                      "Result: " + result.text + "\n" +
+                                      "Format: " + result.format + "\n" +
+                                      "Cancelled: " + result.cancelled);                            
+                            }, 0);
+                        },
+
+                        // error callback function
+                        function (error) {
+                            alert("Scanning failed: " + error);
+                        },
+
+                        // options objects
+                        {
+                            "preferFrontCamera" : preferFrontCamera, // default false
+                            "showFlipCameraButton" : showFlipCameraButton // default false
+                        }
+                    );
+                }
+            },
+
+            checkSimulator: function() {
+                if (window.navigator.simulator === true) {
+                    alert('This plugin is not available in the simulator.');
+                    return true;
+                } else if (window.cordova === undefined) {
+                    alert('Plugin not found. Maybe you are running in AppBuilder Companion app which currently does not support this plugin.');
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            
             afvalcodes: [],
             wegingDataSource: wegingDataSource,
             afvalDataSource: afvalDataSource,
