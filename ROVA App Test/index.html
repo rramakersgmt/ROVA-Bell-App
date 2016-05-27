@@ -44,32 +44,8 @@
     <!-- START_CUSTOM_CODE_kendoUiMobileApp -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
 <script>
-    var afvalDataSource = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: "http://clearweigh.gmt.nl/demo/afval",
-                /*data: {sid: appLocalData[0].sid, usr: appLocalData[0].login},*/
-                type: "get",
-                dataType: "json",
-                cache: true,
-             },
-        },
-        // describe the result format
-        schema: {
-            model: {
-                id: "afval_id",
-                fields: {
-                    afval_id:		{type: "number"},
-                    afval_code:		{type: "string"},
-                    afval_omschr: 	{type: "string"},
-                    prijs:			{type: "number"},
-                    afval_type: 	{type: "string", hidden: true},
-                },
-            },
 
-        },
-    });    
-    afvalDataSource.fetch();
+
 
 </script>
     <!-- END_CUSTOM_CODE_kendoUiMobileApp -->

@@ -78,10 +78,42 @@ app.home = kendo.observable({
                 },
             },
         },
+        afvalDataSourceOptions = {
+            transport: {
+                read: {
+                    url: "http://clearweigh.gmt.nl/demo/afval2",
+                    /*data: {sid: appLocalData[0].sid, usr: appLocalData[0].login},*/
+                    type: "get",
+                    dataType: "json",
+                    cache: false,
+                 },
+            },
+            // describe the result format
+            schema: {
+                model: {
+                    id: "afval_id",
+                    fields: {
+                        afval_id:		{type: "number"},
+                        afval_code:		{type: "string"},
+                        afval_omschr: 	{type: "string"},
+                        prijs:			{type: "number"},
+                    },
+                },
 
+            },
+            change: function (e) {
+                
+           		homeModel.set("afvalcodes", this.view());
+                
+            }
+        }, 
+
+        afvalDataSource = new kendo.data.DataSource(afvalDataSourceOptions),
         wegingDataSource = new kendo.data.DataSource(wegingenDataSourceOptions),
         homeModel = kendo.observable({
+            afvalcodes: [],
             wegingDataSource: wegingDataSource,
+            afvalDataSource: afvalDataSource,
             searchChange: function(e) {
                 var searchVal = e.target.value,
                     searchFilter;
@@ -96,6 +128,12 @@ app.home = kendo.observable({
                 fetchFilteredData(homeModel.get('paramFilter'), searchFilter);
             },
             itemClick: function(e) {
+                var afvalDataSource = homeModel.get('afvalDataSource'),
+                    itemData = wegingDataSource.getByUid(e.dataItem.uid);
+                
+                afvalDataSource.read({afval_type: itemData.afval_type});
+				this.set('afvalDataSource', afvalDataSource)
+                
                 app.mobileApp.navigate('#components/home/edit.html?uid=' + e.dataItem.uid);
             },
             detailsShow: function(e) {
@@ -118,7 +156,7 @@ app.home = kendo.observable({
             var itemUid = e.view.params.uid,
                 wegingDataSource = homeModel.get('wegingDataSource'),
                 itemData = wegingDataSource.getByUid(itemUid);
-
+            
             this.set('itemData', itemData);
         },
         onSaveClick: function(e) {

@@ -10,7 +10,7 @@
     <!-- END_CUSTOM_CODE_homeModel -->
     <div id="editableListForm11" class="form-view">
         <form>
-            <ul class="form-content" data-role="listview" data-style="inset" data-click="getList({afval_type})">
+            <ul class="form-content" data-role="listview" data-style="inset">
                 <li class="form-content-item">
                     <p class="editableListItem">
 
@@ -21,7 +21,7 @@
                     <p class="editableListItem">
 						<label>
                             <span>Afval type</span>
-                            <span id="afval_type" data-bind="text: itemData.afval_type, value:itemData.afval_type"></span>
+                            <span id="afval_type" data-bind="text: itemData.afval_type"></span>
                     	</label>
                   	</p>
 				</li>
@@ -29,19 +29,8 @@
                     <p class="editableListItem">
 						<label>
                             <span style="width: 60px;">Afval</span>
-                        	<span><select id="DLafval" data-bind="value: itemData.afval" data-role="dropdownlist"></select></span>
-                        	<!--div id="DList">
-                                <input data-role="dropdownlist"
-                                       data-auto-bind="false"
-                                       data-text-field="afval_omschr"
-                                       data-value-field="afval_id"
-                                       data-bind="value: itemData.afval,
-                                                  source: afvalcodes,
-                                                  "
-                                       style="width: 100%;"
-                                /-->                                
+                        	<span><select data-value-field="afval_id" data-text-field="afval_omschr" data-role="dropdownlist" data-bind="source: homeModel.afvalcodes, value: itemData.afval"></select> </span>
                             </span>
-                        	<!--span><select id="DLafval" data-bind="click: setListItems, value: itemData.afval" data-role="dropdownlist"></select></span-->
                     	</label>
                   	</p>
 				</li>
@@ -54,72 +43,12 @@
                 { afval_type: "C2" },
                 { afval_type: "C3" }
             ];
-            var afvalList = afvalDataSource.view();
-
-/*            var afvalList = afvalDataSource.view();
-    var viewModel = kendo.observable({
-        afvalcodes: new kendo.data.DataSource({
-            transport: {
-                read: {
-                    url: "http://clearweigh.gmt.nl/demo/afval",
-                    data: {sid: appLocalData[0].sid, usr: appLocalData[0].login},
-                    data: {type: itemData.afval_type},
-                    type: "get",
-                    dataType: "json",                
-                }
-            }
-        })
-    });
-    kendo.bind($("#DList"), viewModel);            */
     
             $(document).ready(function(){
 
-                //var afvl = [{"afval_id":1,"afval_omschr":"EA"}, {"afval_id":2,"afval_omschr":"BOX"}]
-
-//                console.log(afvalList[0]);
-//                console.log(OrderUomTypes);
-
 //http://jsbin.com/qiqurofewi/edit?html,output
-//https://www.daniweb.com/programming/web-development/threads/446172/converting-json-data-from-datasource-to-javascript-array
-
-                //nsole.log(temp.children);
-                //r temp2= dataItem["afval_type"].Text;
-//                var temp2=temp.toString();
-                //nsole.log(temp2);
-                
-                // http://www.w3schools.com/jsref/dom_obj_span.asp
-                var afval_idList = [];
-                var afval_omschrList = [];
-                //Extract data from the recieved json data
-/*                for(var i=0; i < afvalDataSource.length; i++){
-                    alert(afvalDataSource[i].afval_type);
-                    if (afvalDataSource[i].afval_type === "C1") {
-                        
-                    	afval_idList.push(afvalDataSource[i].afval_id);
-                    	afval_omschrList.push(afvalDataSource[i].afval_omschr);
-                    }
-                };
-                console.log(afval_idList);*/
-               
-                
-                
 
          }); 
-        function getList(e){
-            var x=$("#afval_type")
-            //var c = document.getElementsById("afval_type");
-//var x = c.childNodes[0].nodeValue;  
-//console.log(c);
-            var listItems= "";
-
-            for (var i = 0; i < afvalList.length; i++){
-                if (afvalList[i].afval_type === "C3") {
-                    listItems+= "<option value='" + afvalList[i].afval_id + "'>" + afvalList[i].afval_omschr + "</option>";
-                };
-            };
-            $("#DLafval").html(listItems);
-        };
-
         </script>
         <!-- END_CUSTOM_CODE_editableListForm11 -->
 	</div>	
