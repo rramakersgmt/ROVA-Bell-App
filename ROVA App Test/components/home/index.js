@@ -231,6 +231,9 @@ app.home = kendo.observable({
             });
 
             wegingDataSource.sync();
+        },
+        onScanClick: function(e) {
+            alert("onScanClick");
         }
     }));
 
