@@ -53,7 +53,7 @@ app.home = kendo.observable({
             requestEnd: function (e) {
                 if (e.type != "read") {
                     // refresh the grid
-                    //e.sender.read({sid: appLocalData[0].sid});
+                    e.sender.read();
                 }
             },
             // describe the result format
@@ -160,12 +160,9 @@ app.home = kendo.observable({
             this.set('itemData', itemData);
         },
         onSaveClick: function(e) {
-            var editFormData = this.get('editFormData'),
+            var 
                 itemData = this.get('itemData'),
                 wegingDataSourcee = homeModel.get('wegingDataSource');
-
-            // prepare edit
-            itemData.set('afval_id', editFormData.dropdownlist);
 
             wegingDataSource.one('sync', function(e) {
                 app.mobileApp.navigate('#:back');
