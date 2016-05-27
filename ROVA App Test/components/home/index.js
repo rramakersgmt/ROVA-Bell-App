@@ -15,7 +15,7 @@ app.home = kendo.observable({
     var dataProvider = app.data.wegingen,
         fetchFilteredData = function(paramFilter, searchFilter) {
             var model = parent.get('homeModel'),
-                dataSource = model.get('dataSource');
+                wegingDataSource = model.get('wegingDataSource');
 
             if (paramFilter) {
                 model.set('paramFilter', paramFilter);
@@ -24,14 +24,14 @@ app.home = kendo.observable({
             }
 
             if (paramFilter && searchFilter) {
-                dataSource.filter({
+                wegingDataSource.filter({
                     logic: 'and',
                     filters: [paramFilter, searchFilter]
                 });
             } else if (paramFilter || searchFilter) {
-                dataSource.filter(paramFilter || searchFilter);
+                wegingDataSource.filter(paramFilter || searchFilter);
             } else {
-                dataSource.filter({});
+                wegingDataSource.filter({});
             }
         },
         wegingenDataSourceOptions = {
@@ -53,7 +53,7 @@ app.home = kendo.observable({
             requestEnd: function (e) {
                 if (e.type != "read") {
                     // refresh the grid
-                    e.sender.read({sid: appLocalData[0].sid});
+                    //e.sender.read({sid: appLocalData[0].sid});
                 }
             },
             // describe the result format
@@ -79,9 +79,9 @@ app.home = kendo.observable({
             },
         },
 
-        dataSource = new kendo.data.DataSource(wegingenDataSourceOptions),
+        wegingDataSource = new kendo.data.DataSource(wegingenDataSourceOptions),
         homeModel = kendo.observable({
-            dataSource: dataSource,
+            wegingDataSource: wegingDataSource,
             searchChange: function(e) {
                 var searchVal = e.target.value,
                     searchFilter;
@@ -100,8 +100,8 @@ app.home = kendo.observable({
             },
             detailsShow: function(e) {
                 var item = e.view.params.uid,
-                    dataSource = homeModel.get('dataSource'),
-                    itemModel = dataSource.getByUid(item);
+                    wegingDataSource = homeModel.get('wegingDataSource'),
+                    itemModel = wegingDataSource.getByUid(item);
 
                 if (!itemModel.bonnr) {
                     itemModel.bonnr = String.fromCharCode(160);
@@ -116,28 +116,28 @@ app.home = kendo.observable({
     parent.set('editItemViewModel', kendo.observable({
         onShow: function(e) {
             var itemUid = e.view.params.uid,
-                dataSource = homeModel.get('dataSource'),
-                itemData = dataSource.getByUid(itemUid);
+                wegingDataSource = homeModel.get('wegingDataSource'),
+                itemData = wegingDataSource.getByUid(itemUid);
 
             this.set('itemData', itemData);
         },
         onSaveClick: function(e) {
             var editFormData = this.get('editFormData'),
                 itemData = this.get('itemData'),
-                dataSource = homeModel.get('dataSource');
+                wegingDataSourcee = homeModel.get('wegingDataSource');
 
             // prepare edit
             itemData.set('afval_id', editFormData.dropdownlist);
 
-            dataSource.one('sync', function(e) {
+            wegingDataSource.one('sync', function(e) {
                 app.mobileApp.navigate('#:back');
             });
 
-            dataSource.one('error', function() {
-                dataSource.cancelChanges(itemData);
+            wegingDataSource.one('error', function() {
+                wegingDataSource.cancelChanges(itemData);
             });
 
-            dataSource.sync();
+            wegingDataSource.sync();
         }
     }));
 
