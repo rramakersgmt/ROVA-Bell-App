@@ -136,10 +136,34 @@ app.home = kendo.observable({
                         function (result) {
                             // wrapping in a timeout so the dialog doesn't free the app
                             setTimeout(function() {
-                                alert("We got a barcode\n" +
+
+                                var view = kendo.data.Query.process(wegingDataSource.data()).data,
+                                    uid = -1,
+                                    afval_type="";
+
+                                for (var x = 0; x < view.length; x++) {
+                                    if (view[x].hiddenkey == result.text) {
+                                        uid = view[x].uid;
+                                        afval_type = view[x].afval_type;
+                                        break;
+                                    }
+                                }
+
+                                /*alert("We got a barcode\n" +
                                       "Result: " + result.text + "\n" +
                                       "Format: " + result.format + "\n" +
-                                      "Cancelled: " + result.cancelled);                            
+                                      "Cancelled: " + result.cancelled + "\n" +
+                                      "uid: " + uid);*/
+                                
+                                if (uid === -1) {
+                                    return;
+                                }
+                                var afvalDataSource = homeModel.get('afvalDataSource');
+
+                                afvalDataSource.read({afval_type: afval_type});
+                                homeModel.set('afvalDataSource', afvalDataSource)
+
+                                app.mobileApp.navigate('#components/home/edit.html?uid=' + uid);
                             }, 0);
                         },
 
@@ -155,6 +179,9 @@ app.home = kendo.observable({
                         }
                     );
                 }
+            },
+            
+            settings: function(){
             },
 
             checkSimulator: function() {
@@ -213,7 +240,7 @@ app.home = kendo.observable({
             var itemUid = e.view.params.uid,
                 wegingDataSource = homeModel.get('wegingDataSource'),
                 itemData = wegingDataSource.getByUid(itemUid);
-            
+
             this.set('itemData', itemData);
         },
         onSaveClick: function(e) {
