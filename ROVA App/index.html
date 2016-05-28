@@ -22,31 +22,18 @@
     <!-- START_CUSTOM_CODE_kendoUiMobileApp -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
 <script>
-    function findWeging(hiddenkey) {
-        var view = kendo.data.Query.process(wegingenDataSource.data(), {
-                        filter: wegingenDataSource.filter(),
-                        sort: wegingenDataSource.sort()
-                    })
-                    .data;
-
-        var index = -1;
-        for (var x = 0; x < view.length; x++) {
-            if (view[x].hiddenkey == hiddenkey) {
-                index = x;
-                break;
+    if (localStorage["app_data"] == undefined) {
+        var appData = [
+        	{
+                id: 0, 
+             	login:"super", 
+                password: "super", 
+                server: "http://clearweigh.gmt.nl/demo/",
+                sid: ""
             }
-        }
-
-        if (index === -1) {
-            return;
-        }
-        
-        index = index + 1;
-        
-        var grid = $("#grid").data("kendoGrid");
-		grid.editRow($("#grid tr:eq(" + index + ")"));
-  
-	};
+        ];
+        localStorage["app_data"] = JSON.stringify(appData);
+    };
 </script>
     <!-- END_CUSTOM_CODE_kendoUiMobileApp -->
 </body>

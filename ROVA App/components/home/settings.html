@@ -1,0 +1,63 @@
+<div data-reload="true" data-role="view" data-title="Settings" data-model="app.home.editItemViewModel" data-bind="events: { show: onShow }" id="homeModelEditItemView">
+    <header data-role="header">
+        <div data-role="navbar" class="header-text">
+            <span style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; display: block; margin-left: 70px; margin-right: 70px;" data-role="view-title">Settings</span>
+            <a data-role="backbutton" data-align="left">Cancel</a>
+            <!--a data-role="button" data-align="right" data-bind="events: { click: onSaveClick }">Save</a-->
+        </div>
+    </header>
+
+    <footer data-role="footer">
+        <style> 
+.km-login:after,
+.km-login:before
+{
+	content: url("styles/icons/login.png");
+}
+.km-logout:after,
+.km-logout:before 
+{
+	content: url("styles/icons/logout.png");
+}
+        </style>
+        <div data-role="tabstrip">
+            <a data-icon="login"  data-bind="click: homeModel.scanBack">Login</a>
+            <a data-icon="logout" data-bind="click: homeModel.scanBack">Logout</a>
+        </div>
+    </footer>    
+    
+    <!-- START_CUSTOM_CODE_homeModel -->
+    <!-- END_CUSTOM_CODE_homeModel -->
+    <div id="editableListForm11" class="form-view" style="font-size:110%;">
+        <form>
+            <ul class="form-content" data-role="listview" data-style="inset">
+                <li class="form-content-item">
+                    <p class="editableListItem">
+                        <label><span>Server</span>
+                            <span align="right" data-bind="text: itemData.bonnr"></span>
+                        </label>           
+                  	</p>
+				</li>
+                <li class="form-content-item">
+                    <p class="editableListItem">
+                        <label><span>Login</span>
+                            <span align="right" data-bind="text: itemData.datum"></span>
+                        </label>           
+                  	</p>
+                    <p class="editableListItem">
+                        <label><span>Password</span>
+                            <span align="right" data-format="####0 kg" data-bind="text: itemData.inweging"></span>
+                        </label>           
+                  	</p>
+				</li>
+            </ul>
+        </form>
+        <!-- START_CUSTOM_CODE_editableListForm11 -->
+        <script type="text/javascript">
+            $(document).ready(function(){
+
+	        }); 
+        </script>
+        <!-- END_CUSTOM_CODE_editableListForm11 -->
+	</div>	
+</div>

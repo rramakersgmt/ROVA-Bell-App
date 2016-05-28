@@ -10,9 +10,10 @@ app.home = kendo.observable({
 
 // END_CUSTOM_CODE_home
 (function(parent) {
+    var appLocalData = JSON.parse(localStorage["app_data"]),
+        url=appLocalData[0].server,
 
-
-    var dataProvider = app.data.wegingen,
+    	dataProvider = app.data.wegingen,
         fetchFilteredData = function(paramFilter, searchFilter) {
             var model = parent.get('homeModel'),
                 wegingDataSource = model.get('wegingDataSource');
@@ -37,17 +38,17 @@ app.home = kendo.observable({
         wegingenDataSourceOptions = {
             transport: {
                 read: {
-                    url: "http://clearweigh.gmt.nl/demo/wegingen",
+                    url: url + "wegingen",
                     type: "get",
-                    /*data: {sid: appLocalData[0].sid, usr: appLocalData[0].login},*/
+                    data: {sid: appLocalData[0].sid, usr: appLocalData[0].login},
                     dataType: "json",
                     cache: false,
                 },
                 update: {
-                    url: "http://clearweigh.gmt.nl/demo/wegingupdate",
+                    url: url + "wegingupdate",
                     type: "get",
+                    data: {sid: appLocalData[0].sid, usr: appLocalData[0].login},
                     dataType: "json",
-                    /*jsonpCallback: "CallBackWegingUpdate",*/
                 },
             },
             requestEnd: function (e) {
@@ -81,8 +82,8 @@ app.home = kendo.observable({
         afvalDataSourceOptions = {
             transport: {
                 read: {
-                    url: "http://clearweigh.gmt.nl/demo/afval2",
-                    /*data: {sid: appLocalData[0].sid, usr: appLocalData[0].login},*/
+                    url: url + "afval2",
+                    data: {sid: appLocalData[0].sid, usr: appLocalData[0].login},
                     type: "get",
                     dataType: "json",
                     cache: false,

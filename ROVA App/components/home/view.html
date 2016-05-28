@@ -6,7 +6,7 @@
     <header data-role="header">
         <div data-role="navbar">
             <span data-role="view-title"></span>
-            <a data-align="right" data-role="button" class="nav-button" href="#settings">Settings</a>
+            <a data-align="right" data-icon="settings" data-role="button" class="nav-button" href="components/home/settings.html"></a>
         </div>
          <!--form class="km-filter-form custom-filter">
          	<div class="km-filter-wrap">
@@ -16,7 +16,7 @@
     </header>
     <footer data-role="footer">
         <div data-role="tabstrip">
-            <a data-bind="click: homeModel.scanBack" data-icon="camera">Scan Barcode</a>
+            <a data-bind="click: homeModel.scanBack" data-icon="camera" data-badge="0">Scan Barcode</a>
         </div>
     </footer>
       	
@@ -39,7 +39,8 @@
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
     <!-- END_CUSTOM_CODE_homeModel -->
     <script>
-
+        var appLocalData = JSON.parse(localStorage["app_data"]);
+        var url=appLocalData[0].server; 
         
         $(document).ready(function() {    
 
