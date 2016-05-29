@@ -8,22 +8,21 @@
             <span data-role="view-title"></span>
             <a data-align="right" data-icon="settings" data-role="button" class="nav-button" href="components/home/settings.html"></a>
         </div>
-         <!--form class="km-filter-form custom-filter">
+         <form class="km-filter-form custom-filter">
          	<div class="km-filter-wrap">
-                <input type="search" placeholder="Search..." data-bind="{events:{keyup: homeModel.searchChange}}">
+                <input data-type="search" placeholder="Search..." data-bind="{events:{keyup: homeModel.searchChange}}">
             </div>
-        </form--> 
+        </form> 
     </header>
     <footer data-role="footer">
         <div data-role="tabstrip">
-            <a data-bind="click: homeModel.scanBack" data-icon="camera">Scan Barcode</a>
+            <a id="btnBadge" data-role="button" data-badge="0" data-bind="click: homeModel.scanBack" data-icon="camera">Scan Barcode</a>
         </div>
     </footer>
       	
     <!--div class="container">
          <form class="km-filter-form custom-filter">
          	<div class="km-filter-wrap">
-                <input type="search" placeholder="Search..." data-bind="{events:{keyup: homeModel.searchChange}}">
             </div>
         </form> 
         <div data-role="scroller" class="scroller-content">
@@ -31,24 +30,16 @@
         </div>
     </div-->
 
-    <div data-role="scroller" class="scroller-content">
-        <ul data-filter="true" data-inset="true" data-role="listview" data-auto-bind="false" data-style="inset" data-template="homeModelTemplate" data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" data-pull-to-refresh="true" data-endless-scroll="false">
+    <div id="scroller" data-role="scroller">
+        <ul data-role="listview" data-style="inset" data-template="homeModelTemplate" data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" data-pull-to-refresh="true" data-endless-scroll="false">
         </ul>
     </div>
 
     <!-- START_CUSTOM_CODE_homeModel -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
     <!-- END_CUSTOM_CODE_homeModel -->
-    <script>
-        var appLocalData = JSON.parse(localStorage["app_data"]);
-        var url=appLocalData[0].server; 
-        
-        $(document).ready(function() {    
 
-            
-        });
-    
-    </script>
+
     <script type="text/x-kendo-template" id="homeModelTemplate">
             <div class="image-with-text">
                 <h3>#: data['bonnr'] #</h3>
@@ -84,3 +75,13 @@
       }
     </style>
     </div>
+    <script>
+        var appLocalData = JSON.parse(localStorage["app_data"]);
+        var url=appLocalData[0].server; 
+
+        $(document).ready(function() {    
+
+            
+        });
+    
+    </script>

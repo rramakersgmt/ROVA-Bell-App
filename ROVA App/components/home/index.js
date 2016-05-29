@@ -50,6 +50,9 @@ app.home = kendo.observable({
                     dataType: "json",
                 },
             },
+            change: function (e) {
+				$(".km-badge")[0].innerHTML=this.data().length;
+            },
             requestEnd: function (e) {
                 if (e.type != "read") {
                     // refresh the grid
@@ -112,9 +115,7 @@ app.home = kendo.observable({
         wegingDataSource = new kendo.data.DataSource(wegingenDataSourceOptions),
         homeModel = kendo.observable({
 
-            scanBack: function () {
-                var temp=$("badgeWegingen");
-                console.log(temp);
+            scanBack: function (e) {
                 /*homeModel.scan(false, false);*/
             },
 
@@ -198,10 +199,6 @@ app.home = kendo.observable({
             afvalcodes: [],
             wegingDataSource: wegingDataSource,
             afvalDataSource: afvalDataSource,
-            countWegingen: function(e) {
-                alert("1");
-                return "1";
-            },
             searchChange: function(e) {
                 var searchVal = e.target.value,
                     searchFilter;
