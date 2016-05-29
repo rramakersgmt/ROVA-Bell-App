@@ -13,18 +13,6 @@ app.home = kendo.observable({
     var appLocalData = JSON.parse(localStorage["app_data"]),
         url=appLocalData[0].server,
 
-        fetchFilteredData = function(paramFilter, searchFilter) {
-            var model = parent.get('homeModel'),
-                wegingDataSource = model.get('wegingDataSource');
-
-            model.set('paramFilter', undefined);
-
-            if (searchFilter) {
-                wegingDataSource.filter(searchFilter);
-            } else {
-                wegingDataSource.filter({});
-            }
-        },
         wegingenDataSourceOptions = {
             transport: {
                 read: {
@@ -207,7 +195,10 @@ app.home = kendo.observable({
                         wegingDataSource.filter(searchFilter);
                     } else {
                         wegingDataSource.filter({});
-                    }                
+                    }
+                    
+		            $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
+
                 }, 300);
             },
             itemClick: function(e) {
