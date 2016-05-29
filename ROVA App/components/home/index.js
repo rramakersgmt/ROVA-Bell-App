@@ -113,7 +113,9 @@ app.home = kendo.observable({
         homeModel = kendo.observable({
 
             scanBack: function () {
-                homeModel.scan(false, false);
+                var temp=$("badgeWegingen");
+                console.log(temp);
+                /*homeModel.scan(false, false);*/
             },
 
             scanBackFlip: function () {
@@ -181,9 +183,6 @@ app.home = kendo.observable({
                 }
             },
             
-            settings: function(){
-            },
-
             checkSimulator: function() {
                 if (window.navigator.simulator === true) {
                     alert('This plugin is not available in the simulator.');
@@ -199,6 +198,10 @@ app.home = kendo.observable({
             afvalcodes: [],
             wegingDataSource: wegingDataSource,
             afvalDataSource: afvalDataSource,
+            countWegingen: function(e) {
+                alert("1");
+                return "1";
+            },
             searchChange: function(e) {
                 var searchVal = e.target.value,
                     searchFilter;

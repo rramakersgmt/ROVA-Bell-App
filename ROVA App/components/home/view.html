@@ -16,7 +16,7 @@
     </header>
     <footer data-role="footer">
         <div data-role="tabstrip">
-            <a data-bind="click: homeModel.scanBack" data-icon="camera" data-badge="0">Scan Barcode</a>
+            <a data-bind="click: homeModel.scanBack" data-icon="camera">Scan Barcode</a>
         </div>
     </footer>
       	
@@ -32,7 +32,8 @@
     </div-->
 
     <div data-role="scroller" class="scroller-content">
-        <ul data-role="listview" data-auto-bind="false" data-style="inset" data-template="homeModelTemplate" data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" data-pull-to-refresh="true" data-endless-scroll="false">
+        <ul data-filter="true" data-inset="true" data-role="listview" data-auto-bind="false" data-style="inset" data-template="homeModelTemplate" data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" data-pull-to-refresh="true" data-endless-scroll="false">
+        </ul>
     </div>
 
     <!-- START_CUSTOM_CODE_homeModel -->
@@ -49,11 +50,11 @@
     
     </script>
     <script type="text/x-kendo-template" id="homeModelTemplate">
-        <div class="image-with-text">
-            <h3>#: data['bonnr'] #</h3>
+            <div class="image-with-text">
+                <h3>#: data['bonnr'] #</h3>
 
-        </div>
-        <p class="editableListItem"><span style="width: 50px;">Afval</span><span align="right" style="width: 210px;"">#: data['afval_omschr'] #</span></p>
+            </div>
+            <p class="editableListItem"><span style="width: 50px;">Afval</span><span align="right" style="width: 210px;"">#: data['afval_omschr'] #</span><span style="width: 10px;" class="km-icon km-details"></span></p>
     </script>
     <style scoped>
       .container {
