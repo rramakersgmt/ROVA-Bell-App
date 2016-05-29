@@ -199,7 +199,7 @@ app.home = kendo.observable({
                     
 		            $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
 
-                }, 300);
+                }, 100);
             },
             itemClick: function(e) {
                 var afvalDataSource = homeModel.get('afvalDataSource');
