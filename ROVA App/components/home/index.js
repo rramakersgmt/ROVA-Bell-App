@@ -13,7 +13,6 @@ app.home = kendo.observable({
     var appLocalData = JSON.parse(localStorage["app_data"]),
         url=appLocalData[0].server,
 
-    	dataProvider = app.data.wegingen,
         fetchFilteredData = function(paramFilter, searchFilter) {
             var model = parent.get('homeModel'),
                 wegingDataSource = model.get('wegingDataSource');
@@ -262,13 +261,7 @@ app.home = kendo.observable({
 
     }));
 
-    if (typeof dataProvider.sbProviderReady === 'function') {
-        dataProvider.sbProviderReady(function dl_sbProviderReady() {
-            parent.set('homeModel', homeModel);
-        });
-    } else {
-        parent.set('homeModel', homeModel);
-    }
+    parent.set('homeModel', homeModel);
 
     parent.set('onShow', function(e) {
         var param = e.view.params.filter ? JSON.parse(e.view.params.filter) : null;
