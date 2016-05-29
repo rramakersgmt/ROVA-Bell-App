@@ -17,19 +17,10 @@ app.home = kendo.observable({
             var model = parent.get('homeModel'),
                 wegingDataSource = model.get('wegingDataSource');
 
-            if (paramFilter) {
-                model.set('paramFilter', paramFilter);
-            } else {
-                model.set('paramFilter', undefined);
-            }
+            model.set('paramFilter', undefined);
 
-            if (paramFilter && searchFilter) {
-                wegingDataSource.filter({
-                    logic: 'and',
-                    filters: [paramFilter, searchFilter]
-                });
-            } else if (paramFilter || searchFilter) {
-                wegingDataSource.filter(paramFilter || searchFilter);
+            if (searchFilter) {
+                wegingDataSource.filter(searchFilter);
             } else {
                 wegingDataSource.filter({});
             }
@@ -116,7 +107,7 @@ app.home = kendo.observable({
         homeModel = kendo.observable({
 
             scanBack: function (e) {
-                /*homeModel.scan(false, false);*/
+                homeModel.scan(false, false);
             },
 
             scanBackFlip: function () {
@@ -199,18 +190,25 @@ app.home = kendo.observable({
             afvalcodes: [],
             wegingDataSource: wegingDataSource,
             afvalDataSource: afvalDataSource,
-            searchChange: function(e) {
-                var searchVal = e.target.value,
-                    searchFilter;
 
-                if (searchVal) {
-                    searchFilter = {
-                        field: 'bonnr',
-                        operator: 'contains',
-                        value: searchVal
-                    };
-                }
-                fetchFilteredData(homeModel.get('paramFilter'), searchFilter);
+            searchChange: function(e) {
+                setTimeout(function() {
+                    var searchVal = e.target.value,
+                        searchFilter,
+                        model = parent.get('homeModel'),
+                        wegingDataSource = model.get('wegingDataSource');
+
+                    if (searchVal) {
+                        searchFilter = {
+                            field: 'bonnr',
+                            operator: 'contains',
+                            value: searchVal
+                        };
+                        wegingDataSource.filter(searchFilter);
+                    } else {
+                        wegingDataSource.filter({});
+                    }                
+                }, 300);
             },
             itemClick: function(e) {
                 var afvalDataSource = homeModel.get('afvalDataSource');
@@ -264,9 +262,7 @@ app.home = kendo.observable({
     parent.set('homeModel', homeModel);
 
     parent.set('onShow', function(e) {
-        var param = e.view.params.filter ? JSON.parse(e.view.params.filter) : null;
 
-        fetchFilteredData(param);
     });
 })(app.home);
 
