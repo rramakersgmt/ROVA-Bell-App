@@ -1,60 +1,130 @@
-<div data-reload="true" data-role="view" data-title="Settings" data-model="app.home.editItemViewModel" data-bind="events: { show: onShow }" id="homeModelEditItemView">
+<div id="appSettings" data-reload="true" data-role="view" data-title="Settings" data-bind="events: { show: onShow }">
     <header data-role="header">
         <div data-role="navbar" class="header-text">
             <span style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; display: block; margin-left: 70px; margin-right: 70px;" data-role="view-title">Settings</span>
             <a data-role="backbutton" data-align="left">Cancel</a>
-            <!--a data-role="button" data-align="right" data-bind="events: { click: onSaveClick }">Save</a-->
         </div>
     </header>
 
     <footer data-role="footer">
         <style> 
-.km-login:after,
-.km-login:before
-{
-	content: url("styles/icons/login.png");
-}
-.km-logout:after,
-.km-logout:before 
-{
-	content: url("styles/icons/logout.png");
-}
+            .km-login:after,
+            .km-login:before
+            {
+                content: url("styles/icons/login.png");
+            }
+            .km-logout:after,
+            .km-logout:before 
+            {
+                content: url("styles/icons/logout.png");
+            }
         </style>
         <div data-role="tabstrip">
-            <a data-icon="login"  data-bind="click: homeModel.scanBack">Login</a>
-            <a data-icon="logout" data-bind="click: homeModel.scanBack">Logout</a>
+            <a class="k-button" data-icon="login"  data-role="button" data-bind="click: login,  invisible: isLoggedIn">Login</a>
+            <a class="k-button" data-icon="logout" data-role="button" data-bind="click: logout,   visible: isLoggedIn">Logout</a>
         </div>
     </footer>    
     
     <!-- START_CUSTOM_CODE_homeModel -->
     <!-- END_CUSTOM_CODE_homeModel -->
-    <div id="editableListForm11" class="form-view" style="font-size:110%;">
+    <div class="form-view" style="font-size:110%;">
         <form>
-            <ul class="form-content" data-role="listview" data-style="inset">
-                <li class="form-content-item">
-                    <p class="editableListItem">
-                        <label><span>Server</span>
-                            <span align="right" data-bind="text: itemData.bonnr"></span>
-                        </label>           
-                  	</p>
-				</li>
-                <li class="form-content-item">
-                    <p class="editableListItem">
-                        <label><span>Login</span>
-                            <span align="right" data-bind="text: itemData.datum"></span>
-                        </label>           
-                  	</p>
-                    <p class="editableListItem">
-                        <label><span>Password</span>
-                            <span align="right" data-format="####0 kg" data-bind="text: itemData.inweging"></span>
-                        </label>           
-                  	</p>
-				</li>
-            </ul>
+          	<div>
+                <ul class="fieldlist" style="padding-left: 10px;" data-style="inset">
+                    <h3>Server</h3> 
+                    <input id="fldserver" 	data-bind="value:fldserver, disabled:isLoggedIn"   class="k-textbox" type="text" style="width:300px;"/>
+                    <h3>Login</h3> 
+                    <input id="fldlogin" 	data-bind="value:fldlogin, disabled:isLoggedIn"    class="k-textbox" type="text"/>
+                    <h3>Wachtwoord</h3> 
+                    <input id="fldpassword" data-bind="value:fldpassword, disabled:isLoggedIn" class="k-textbox" type="password"/>
+                </ul>
+		    </div>
         </form>
         <!-- START_CUSTOM_CODE_editableListForm11 -->
         <script type="text/javascript">
             $(document).ready(function(){
+                var viewModel = kendo.observable({
+                    fldserver: 	appLocalData[0].server,
+                    fldlogin:	appLocalData[0].login,
+                    fldpassword:appLocalData[0].password,
+                    save: function(e) {         
+                        appLocalData[0].server   = this.get("fldserver");
+                        appLocalData[0].login    = this.get("fldlogin");
+                        appLocalData[0].password = this.get("fldpassword");
+                        localStorage["app_data"] = JSON.stringify(appLocalData);
+                        //homeModel.set('appLocalData', JSON.parse(localStorage["app_data"]));
+                        //appSettingsWindow.close(); 
+                    },
+                    close: function(e) {         
+                       viewModel.set("fldserver", appLocalData[0].server);
+                       viewModel.set("fldlogin", appLocalData[0].login);
+                       viewModel.set("fldpassword", appLocalData[0].password);
+                       //appSettingsWindow.close(); 
+
+                    },
+                    login: function(e) {
+                        var url=this.get("fldserver"); 
+                        var logindata= {usr: this.get("fldlogin"), pwd: this.get("fldpassword")};
+
+                        $.ajax({
+                            type: "POST",
+                            url: url + "login",
+                            dataType: "json",
+                            timeout: 2000,
+                            data: logindata,
+                            statusCode: {/*
+                                401:function() { 
+                                    appLocalData[0].sid = "";
+                                    localStorage["app_data"] = JSON.stringify(appLocalData);
+                                    alert("Niet geautoriseerd\nLogin/Wachtwoord onjuist"); 
+                                },
+                                404:function() { 
+                                    appLocalData[0].sid = "";
+                                    localStorage["app_data"] = JSON.stringify(appLocalData);
+                                    alert("Server niet gevonden"); 
+                                },*/
+                                200:function(data) { 
+                                    appLocalData[0].sid 	 = data[0].sid;
+                                    appLocalData[0].server   = url;
+                                    appLocalData[0].login    = logindata.usr;
+                                    appLocalData[0].password = logindata.pwd;
+                                    localStorage["app_data"] = JSON.stringify(appLocalData);
+                                    alert("Ingelogd"); 
+                                },
+                            },
+                            //complete: function(httpObj, textStatus, data){},
+                            error: function (parsedjson, textStatus, errorThrown) {
+                                appLocalData[0].sid = "";
+                                localStorage["app_data"] = JSON.stringify(appLocalData);
+                                alert(parsedjson.statusText);
+                            },
+                            async: false
+                        });
+                        viewModel.set("isLoggedIn", (appLocalData[0].sid != ""));
+                    },
+                    logout: function(e) {         
+                        appLocalData[0].sid = "";
+                        localStorage["app_data"] = JSON.stringify(appLocalData);
+
+                        var url=this.get("fldserver"); 
+
+                        $.ajax({
+                            type: "GET",
+                            url: url + "logout",
+                            statusCode: {
+                                404:function() { alert("Server niet gevonden"); },
+                                200:function() { alert("Uitgelogd"); },
+                            },
+                            async: false
+                        });
+                        viewModel.set("isLoggedIn", (appLocalData[0].sid != ""));
+                    },
+                    isLoggedIn: function() {
+                        return (appLocalData[0].sid != "");
+                    }
+                });
+
+                kendo.bind($("#appSettings"), viewModel);
 
 	        }); 
         </script>

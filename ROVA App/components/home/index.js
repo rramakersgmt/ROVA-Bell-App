@@ -35,6 +35,7 @@ app.home = kendo.observable({
             requestEnd: function (e) {
                 if (e.type != "read") {
                     // refresh the grid
+
                     e.sender.read();
                 }
             },
