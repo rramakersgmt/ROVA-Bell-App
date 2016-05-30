@@ -195,6 +195,7 @@ app.home = kendo.observable({
                         wegingDataSource.filter(searchFilter);
                     } else {
                         wegingDataSource.filter({});
+                        $("#search").blur();
                     }
                     
 		            $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);

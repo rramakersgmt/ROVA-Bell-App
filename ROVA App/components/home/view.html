@@ -10,7 +10,7 @@
         </div>
          <form class="km-filter-form custom-filter">
          	<div class="km-filter-wrap">
-                <input id="search" data-type="search" placeholder="Search..." data-bind="{events:{input: homeModel.searchChange}">
+                <input type = 'number' id="search" data-type="search" placeholder="Search..." data-bind="{events:{input: homeModel.searchChange}">
             </div>
         </form> 
     </header>
@@ -31,7 +31,7 @@
     </div-->
 
     <div id="scroller" data-role="scroller">
-        <ul data-role="listview" data-style="inset" data-template="homeModelTemplate" data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" data-pull-to-refresh="true" data-endless-scroll="false">
+        <ul id="listview" data-role="listview" data-style="inset" data-template="homeModelTemplate" data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" data-pull-to-refresh="true" data-endless-scroll="false">
         </ul>
     </div>
 
@@ -80,7 +80,7 @@
         var url=appLocalData[0].server; 
 
         $(document).ready(function() {    
-            
+
         });
     
     </script>
