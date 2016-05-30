@@ -12,7 +12,6 @@ app.home = kendo.observable({
 (function(parent) {
     var appLocalData = JSON.parse(localStorage["app_data"]),
         url=appLocalData[0].server,
-
         wegingenDataSourceOptions = {
             transport: {
                 read: {
@@ -64,7 +63,7 @@ app.home = kendo.observable({
         afvalDataSourceOptions = {
             transport: {
                 read: {
-                    url: url + "afval2",
+                    url: url + "afval",
                     data: {sid: appLocalData[0].sid, usr: appLocalData[0].login},
                     type: "get",
                     dataType: "json",
@@ -94,7 +93,6 @@ app.home = kendo.observable({
         afvalDataSource = new kendo.data.DataSource(afvalDataSourceOptions),
         wegingDataSource = new kendo.data.DataSource(wegingenDataSourceOptions),
         homeModel = kendo.observable({
-
             scanBack: function (e) {
                 homeModel.scan(false, false);
             },
@@ -250,6 +248,84 @@ app.home = kendo.observable({
             wegingDataSource.sync();
         },
 
+    }));
+
+    parent.set('settingsViewModel', kendo.observable({
+        fldserver: 	appLocalData[0].server,
+        fldlogin:	appLocalData[0].login,
+        fldpassword:appLocalData[0].password,
+        login: function(e) {
+            var url=this.get("fldserver"),
+                logindata= {usr: this.get("fldlogin"), pwd: this.get("fldpassword")},
+				wegingDataSource= app.home.homeModel.get("wegingDataSource"),
+				afvalDataSource= app.home.homeModel.get("afvalDataSource");
+
+            $.ajax({
+                type: "POST",
+                url: url + "login",
+                dataType: "json",
+                timeout: 2000,
+                data: logindata,
+                statusCode: {/*
+                    401:function() { 
+                        appLocalData[0].sid = "";
+                        localStorage["app_data"] = JSON.stringify(appLocalData);
+                        alert("Niet geautoriseerd\nLogin/Wachtwoord onjuist"); 
+                    },
+                    404:function() { 
+                        appLocalData[0].sid = "";
+                        localStorage["app_data"] = JSON.stringify(appLocalData);
+                        alert("Server niet gevonden"); 
+                    },*/
+                    200:function(data) { 
+                        appLocalData[0].sid 	 = data[0].sid;
+                        appLocalData[0].server   = url;
+                        appLocalData[0].login    = logindata.usr;
+                        appLocalData[0].password = logindata.pwd;
+                        localStorage["app_data"] = JSON.stringify(appLocalData);
+						var transportdata= {sid: appLocalData[0].sid, usr: appLocalData[0].login}
+            
+						wegingDataSource.options.transport.read.data=transportdata;
+                        wegingDataSource.options.transport.read.url=url + "wegingen";
+						wegingDataSource.options.transport.update.data=transportdata;
+                        wegingDataSource.options.transport.update.url=url + "wegingupdate";
+						afvalDataSource.options.transport.read.data=transportdata;
+						afvalDataSource.options.transport.read.url=url + "afval";
+
+                        alert("Ingelogd"); 
+                    },
+                },
+                //complete: function(httpObj, textStatus, data){},
+                error: function (parsedjson, textStatus, errorThrown) {
+                    appLocalData[0].sid = "";
+                    appLocalData[0].password = "";
+                    localStorage["app_data"] = JSON.stringify(appLocalData);
+                    alert(parsedjson.statusText);
+                },
+                async: false
+            });
+            this.set("isLoggedIn", (appLocalData[0].sid != ""));
+        },
+        logout: function(e) {         
+            appLocalData[0].sid = "";
+            localStorage["app_data"] = JSON.stringify(appLocalData);
+
+            var url=this.get("fldserver"); 
+
+            $.ajax({
+                type: "GET",
+                url: url + "logout",
+                statusCode: {
+                    404:function() { alert("Server niet gevonden"); },
+                    200:function() { alert("Uitgelogd"); },
+                },
+                async: false
+            });
+            this.set("isLoggedIn", (appLocalData[0].sid != ""));
+        },
+        isLoggedIn: function() {
+            return (appLocalData[0].sid != "");
+        },
     }));
 
     parent.set('homeModel', homeModel);

@@ -76,6 +76,19 @@
     </style>
     </div>
     <script>
+        if (localStorage["app_data"] == undefined) {
+            var appData = [
+                {
+                    id: 0, 
+                    login:"super", 
+                    password: "super", 
+                    server: "http://clearweigh.gmt.nl/demo/",
+                    sid: "1234567890"
+                }
+            ];
+            localStorage["app_data"] = JSON.stringify(appData);
+        };
+        
        var appLocalData = JSON.parse(localStorage["app_data"]);
 
         $(document).ready(function() {    
