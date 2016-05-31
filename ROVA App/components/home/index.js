@@ -42,7 +42,9 @@ app.home = kendo.observable({
                 },
             },
             change: function (e) {
-            	$(".km-badge")[0].innerHTML=e.items.length;
+                if (e.action != "itemchange") {
+	            	$(".km-badge")[0].innerHTML=e.items.length;
+            	}
             },
             requestEnd: function (e) {
                 if (e.type != "read") {
@@ -244,10 +246,10 @@ app.home = kendo.observable({
                 itemData = wegingDataSource.getByUid(itemUid);
 
             this.set('itemData', itemData);
+            this.set("fldPrijsNieuw", null);
         },
         onSaveClick: function(e) {
-            var 
-                itemData = this.get('itemData'),
+			var itemData = this.get('itemData'),
                 wegingDataSourcee = homeModel.get('wegingDataSource');
 
             wegingDataSource.one('sync', function(e) {
@@ -257,10 +259,21 @@ app.home = kendo.observable({
             wegingDataSource.one('error', function() {
                 wegingDataSource.cancelChanges(itemData);
             });
+            this.set("fldPrijsNieuw", null);
 
             wegingDataSource.sync();
         },
+		onChange: function(e) {
+            var itemData = this.get('itemData');
+            var view = kendo.data.Query.process(afvalDataSource.data()).data
 
+            for (var x = 0; x < view.length; x++) {
+                if (view[x].afval_id == itemData.afval) {
+		            this.set("fldPrijsNieuw", view[x].prijs);
+                    break;
+                }
+            }
+        },
     }));
 
     parent.set('settingsViewModel', kendo.observable({

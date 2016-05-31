@@ -48,19 +48,30 @@
                         </label>           
                   	</p>
                     <p class="editableListItem">
-                        <label><span>Tarief per kilo</span>
+                        <label><span>Kilo tarief</span>
                             <span align="right" data-format="c4" data-bind="text: itemData.afval_prijs"></span>
                         </label>           
                   	</p>
-				</li>
+                </li>
             </ul>
-            <ul id="myform" data-role="listview" data-style="inset">
-                <li>
+            <ul data-role="listview" data-style="inset">
+                <li><div style="color:red">
+                    
                     <p class="editableListItem">
 						<label>
                             <span style="width: 60px;">Afval</span>
-                        	<span><select data-value-field="afval_id" data-text-field="afval_omschr" data-role="dropdownlist" data-bind="source: homeModel.afvalcodes, value: itemData.afval"></select> </span>
+                        	<span><select data-value-field="afval_id" data-text-field="afval_omschr" data-role="dropdownlist" data-bind="source: homeModel.afvalcodes, value: itemData.afval, events: { select: onSelect, change: onChange }"></select> </span>
                     	</label>
+                  	</p>
+                    </div>
+				</li>
+            </ul>
+            <ul data-role="listview" data-style="inset">
+                <li data-bind="visible: fldPrijsNieuw">
+                	<p class="editableListItem">
+                        <label><span style="color:red">Nieuw kilo tarief</span>
+                            <span style="color:red" align="right" data-format="c4" data-bind="text: fldPrijsNieuw"></span>
+                        </label>           
                   	</p>
 				</li>
             </ul>
