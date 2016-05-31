@@ -42,9 +42,10 @@
     "ID_RESOLUTION_HD720P"
   ],
   "CorePlugins": [
+    "com.phonegap.plugins.barcodescanner@5.0.0",
+    "cordova-plugin-dialogs",
     "cordova-plugin-globalization",
     "cordova-plugin-whitelist",
-    "org.apache.cordova.labs.keyboard",
-    "com.phonegap.plugins.barcodescanner@5.0.0"
+    "org.apache.cordova.labs.keyboard"
   ]
 }

@@ -20,7 +20,20 @@
 
     <!-- START_CUSTOM_CODE_kendoUiMobileApp -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
-
+	<script>
+        if (localStorage["app_data"] == undefined) {
+            var appData = [
+                {
+                    id: 0, 
+                    login:"weger", 
+                    password: "weger", 
+                    server: "http://clearweigh.gmt.nl/demo/",
+                    sid: ""
+                }
+            ];
+            localStorage["app_data"] = JSON.stringify(appData);
+        };
+	</script>
     <!-- END_CUSTOM_CODE_kendoUiMobileApp -->
 </body>
 

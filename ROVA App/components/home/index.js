@@ -291,8 +291,8 @@ app.home = kendo.observable({
                         wegingDataSource.options.transport.update.url=url + "wegingupdate";
 						afvalDataSource.options.transport.read.data=transportdata;
 						afvalDataSource.options.transport.read.url=url + "afval";
+                    navigator.notification.alert("Ingelogd");
 
-                        alert("Ingelogd"); 
                     },
                 },
                 //complete: function(httpObj, textStatus, data){},
