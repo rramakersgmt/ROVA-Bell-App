@@ -10,6 +10,19 @@ app.home = kendo.observable({
 
 // END_CUSTOM_CODE_home
 (function(parent) {
+    if (localStorage["app_data"] == undefined) {
+        var appData = [
+            {
+                id: 0, 
+                login:"", 
+                password: "", 
+                server: "",
+                sid: ""
+            }
+        ];
+        localStorage["app_data"] = JSON.stringify(appData);
+    };
+
     var appLocalData = JSON.parse(localStorage["app_data"]),
         url=appLocalData[0].server,
         wegingenDataSourceOptions = {
@@ -150,7 +163,7 @@ app.home = kendo.observable({
 
                         // error callback function
                         function (error) {
-                            alert("Scanning failed: " + error);
+                            navigator.notification.alert("Scanning failed: " + error);
                         },
 
                         // options objects
@@ -164,10 +177,10 @@ app.home = kendo.observable({
             
             checkSimulator: function() {
                 if (window.navigator.simulator === true) {
-                    alert('This plugin is not available in the simulator.');
+                    navigator.notification.alert('This plugin is not available in the simulator.');
                     return true;
                 } else if (window.cordova === undefined) {
-                    alert('Plugin not found. Maybe you are running in AppBuilder Companion app which currently does not support this plugin.');
+                    navigator.notification.alert('Plugin not found. Maybe you are running in AppBuilder Companion app which currently does not support this plugin.');
                     return true;
                 } else {
                     return false;
@@ -266,17 +279,7 @@ app.home = kendo.observable({
                 dataType: "json",
                 timeout: 2000,
                 data: logindata,
-                statusCode: {/*
-                    401:function() { 
-                        appLocalData[0].sid = "";
-                        localStorage["app_data"] = JSON.stringify(appLocalData);
-                        alert("Niet geautoriseerd\nLogin/Wachtwoord onjuist"); 
-                    },
-                    404:function() { 
-                        appLocalData[0].sid = "";
-                        localStorage["app_data"] = JSON.stringify(appLocalData);
-                        alert("Server niet gevonden"); 
-                    },*/
+                statusCode: {
                     200:function(data) { 
                         appLocalData[0].sid 	 = data[0].sid;
                         appLocalData[0].server   = url;
@@ -291,7 +294,8 @@ app.home = kendo.observable({
                         wegingDataSource.options.transport.update.url=url + "wegingupdate";
 						afvalDataSource.options.transport.read.data=transportdata;
 						afvalDataSource.options.transport.read.url=url + "afval";
-                    navigator.notification.alert("Ingelogd");
+                    	navigator.notification.alert("Ingelogd");
+                        app.mobileApp.navigate('#:back');
 
                     },
                 },
@@ -300,7 +304,7 @@ app.home = kendo.observable({
                     appLocalData[0].sid = "";
                     appLocalData[0].password = "";
                     localStorage["app_data"] = JSON.stringify(appLocalData);
-                    alert(parsedjson.statusText);
+                    navigator.notification.alert(parsedjson.statusText);
                 },
                 async: false
             });
@@ -316,8 +320,8 @@ app.home = kendo.observable({
                 type: "GET",
                 url: url + "logout",
                 statusCode: {
-                    404:function() { alert("Server niet gevonden"); },
-                    200:function() { alert("Uitgelogd"); },
+                    404:function() { navigator.notification.alert("Server niet gevonden"); },
+                    200:function() { navigator.notification.alert("Uitgelogd"); },
                 },
                 async: false
             });
