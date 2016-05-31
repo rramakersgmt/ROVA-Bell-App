@@ -30,14 +30,22 @@ app.home = kendo.observable({
                 read: {
                     url: url + "wegingen",
                     type: "get",
-                    data: {sid: appLocalData[0].sid, usr: appLocalData[0].login},
+                    data: {dis: appLocalData[0].sid, usr: appLocalData[0].login},
                     dataType: "json",
                     cache: false,
+                    beforeSend: function(req) {
+                        /*
+                        var d = new Date();
+                        d.setTime(d.getTime() + (7*24*60*60*1000));
+                        var expires = "expires="+ d.toUTCString();
+                        document.cookie = "sid=" + appLocalData[0].sid + "; " + expires;
+                        */
+                    }, 
                 },
                 update: {
                     url: url + "wegingupdate",
                     type: "get",
-                    data: {sid: appLocalData[0].sid, usr: appLocalData[0].login},
+                    data: {dis: appLocalData[0].sid, usr: appLocalData[0].login},
                     dataType: "json",
                 },
             },
@@ -79,7 +87,7 @@ app.home = kendo.observable({
             transport: {
                 read: {
                     url: url + "afval",
-                    data: {sid: appLocalData[0].sid, usr: appLocalData[0].login},
+                    data: {dis: appLocalData[0].sid, usr: appLocalData[0].login},
                     type: "get",
                     dataType: "json",
                     cache: false,
@@ -211,9 +219,7 @@ app.home = kendo.observable({
                         wegingDataSource.filter({});
                         $("#search").blur();
                     }
-                    
 		            $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
-
                 }, 100);
             },
             itemClick: function(e) {
@@ -299,7 +305,7 @@ app.home = kendo.observable({
                         appLocalData[0].login    = logindata.usr;
                         appLocalData[0].password = logindata.pwd;
                         localStorage["app_data"] = JSON.stringify(appLocalData);
-						var transportdata= {sid: appLocalData[0].sid, usr: appLocalData[0].login}
+						var transportdata= {dis: appLocalData[0].sid, usr: appLocalData[0].login}
             
 						wegingDataSource.options.transport.read.data=transportdata;
                         wegingDataSource.options.transport.read.url=url + "wegingen";
