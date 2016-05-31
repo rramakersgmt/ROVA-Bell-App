@@ -42,7 +42,7 @@ app.home = kendo.observable({
                 },
             },
             change: function (e) {
-				$(".km-badge")[0].innerHTML=this.data().length;
+            	$(".km-badge")[0].innerHTML=e.items.length;
             },
             requestEnd: function (e) {
                 if (e.type != "read") {
@@ -270,14 +270,14 @@ app.home = kendo.observable({
         login: function(e) {
             var url=this.get("fldserver"),
                 logindata= {usr: this.get("fldlogin"), pwd: this.get("fldpassword")},
-				wegingDataSource= app.home.homeModel.get("wegingDataSource"),
-				afvalDataSource= app.home.homeModel.get("afvalDataSource");
+				wegingDataSource = app.home.homeModel.get("wegingDataSource"),
+				afvalDataSource = app.home.homeModel.get("afvalDataSource");
 
             $.ajax({
                 type: "POST",
                 url: url + "login",
                 dataType: "json",
-                timeout: 2000,
+                timeout: 500,
                 data: logindata,
                 statusCode: {
                     200:function(data) { 
@@ -295,15 +295,21 @@ app.home = kendo.observable({
 						afvalDataSource.options.transport.read.data=transportdata;
 						afvalDataSource.options.transport.read.url=url + "afval";
                     	navigator.notification.alert("Ingelogd");
-                        app.mobileApp.navigate('#:back');
-
+                        setTimeout(function() {
+                            wegingDataSource.read();
+	                        app.mobileApp.navigate('#:back');
+                        }, 1000);
                     },
                 },
                 //complete: function(httpObj, textStatus, data){},
                 error: function (parsedjson, textStatus, errorThrown) {
+                    app.home.editItemViewModel.set("fldpassword", "");
                     appLocalData[0].sid = "";
                     appLocalData[0].password = "";
                     localStorage["app_data"] = JSON.stringify(appLocalData);
+    			    var elem = document.getElementById("fldpassword");
+    				elem.value = "";
+                    
                     navigator.notification.alert(parsedjson.statusText);
                 },
                 async: false
@@ -313,15 +319,34 @@ app.home = kendo.observable({
         logout: function(e) {         
             appLocalData[0].sid = "";
             localStorage["app_data"] = JSON.stringify(appLocalData);
+			var wegingDataSource = app.home.homeModel.get("wegingDataSource"),
+			    afvalDataSource = app.home.homeModel.get("afvalDataSource");            
 
             var url=this.get("fldserver"); 
+            this.set("fldpassword", "");
+
+            appLocalData[0].password = "";
+            appLocalData[0].sid = "";
+            localStorage["app_data"] = JSON.stringify(appLocalData);
+
+            wegingDataSource.options.transport.read.data="";
+            wegingDataSource.options.transport.read.url="";
+			wegingDataSource.options.transport.update.data="";
+            wegingDataSource.options.transport.update.url="";
+			afvalDataSource.options.transport.read.data="";
+			afvalDataSource.options.transport.read.url="";
+		    var elem = document.getElementById("fldpassword");
+			elem.value = "";
+            wegingDataSource.data([]);
 
             $.ajax({
                 type: "GET",
                 url: url + "logout",
                 statusCode: {
                     404:function() { navigator.notification.alert("Server niet gevonden"); },
-                    200:function() { navigator.notification.alert("Uitgelogd"); },
+                    200:function() { 
+                        navigator.notification.alert("Uitgelogd"); 
+                    },
                 },
                 async: false
             });
