@@ -2,7 +2,13 @@
 
 app.home = kendo.observable({
     onShow: function() {},
-    afterShow: function() {}
+    afterShow: function() {
+        var fldSearch = $("input[type='search']")[0];
+       	if ( fldSearch ) {
+	   		fldSearch.id="search";
+	   		fldSearch.type="number";
+    	}
+	}
 });
 
 // START_CUSTOM_CODE_home
@@ -116,6 +122,12 @@ app.home = kendo.observable({
         afvalDataSource = new kendo.data.DataSource(afvalDataSourceOptions),
         wegingDataSource = new kendo.data.DataSource(wegingenDataSourceOptions),
         homeModel = kendo.observable({
+            gotoSearch: function (e) {
+                $("#search").focus();
+                //$("#scroller").data("kendoMobileScroller").scrollTo(0, 0);
+$(window).scrollTop(100);
+
+            },
             scanBack: function (e) {
                 homeModel.scan(false, false);
             },

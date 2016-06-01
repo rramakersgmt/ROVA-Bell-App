@@ -8,15 +8,16 @@
             <span data-role="view-title"></span>
             <a data-align="right" data-icon="settings" data-role="button" class="nav-button" href="components/home/settings.html"></a>
         </div>
-         <form class="km-filter-form custom-filter">
+         <!--form class="km-filter-form custom-filter">
          	<div class="km-filter-wrap">
                 <input type = 'number' id="search" data-type="search" placeholder="Search..." data-bind="{events:{input: homeModel.searchChange}">
             </div>
-        </form> 
+        </form--> 
     </header>
     <footer data-role="footer">
         <div data-role="tabstrip">
-            <a id="btnBadge" data-role="button" data-badge="0" data-bind="click: homeModel.scanBack" data-icon="camera">Scan Barcode</a>
+            <a id="btnBadge" data-role="button" data-badge="0" data-bind="click: homeModel.gotoSearch" data-icon="search">Search</a>
+            <a data-role="button" data-bind="click: homeModel.scanBack" data-icon="camera">Scan Barcode</a>
         </div>
     </footer>
       	
@@ -31,7 +32,21 @@
     </div-->
 
     <div id="scroller" data-role="scroller">
-        <ul id="listview" data-role="listview" data-style="inset" data-template="homeModelTemplate" data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" data-pull-to-refresh="true" data-endless-scroll="false">
+        <ul id="listview" 
+            data-role="listview"
+            data-filter="true"
+            data-filterable="{
+            	field: 'bonnr', 
+                operator: 'contains',
+				placeholder: 'Search...',
+				id: 'search',
+                       
+            }",
+            data-style="inset" 
+            data-template="homeModelTemplate" 
+            data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" 
+            data-pull-to-refresh="true" 
+            data-endless-scroll="false">
         </ul>
     </div>
 
@@ -76,22 +91,12 @@
     </style>
     </div>
     <script>
-        /*if (localStorage["app_data"] == undefined) {
-            var appData = [
-                {
-                    id: 0, 
-                    login:"weger", 
-                    password: "weger", 
-                    server: "http://clearweigh.gmt.nl/demo/",
-                    sid: ""
-                }
-            ];
-            localStorage["app_data"] = JSON.stringify(appData);
-        };
+     
         
-       var appLocalData = JSON.parse(localStorage["app_data"]);
-*/
         $(document).ready(function() {    
+            //$("input[type='search']").type = "number";
+            //$("input[type='search']").id = "search";
+			//$("input[type='search']").data-bind = "{events:{input: homeModel.searchChange}";
 
         });
     
