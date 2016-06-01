@@ -8,11 +8,6 @@
             <span data-role="view-title"></span>
             <a data-align="right" data-icon="settings" data-role="button" class="nav-button" href="components/home/settings.html"></a>
         </div>
-         <!--form class="km-filter-form custom-filter">
-         	<div class="km-filter-wrap">
-                <input type = 'number' id="search" data-type="search" placeholder="Search..." data-bind="{events:{input: homeModel.searchChange}">
-            </div>
-        </form--> 
     </header>
     <footer data-role="footer">
         <div data-role="tabstrip">
@@ -20,28 +15,12 @@
             <a data-role="button" data-bind="click: homeModel.scanBack" data-icon="camera">Scan Barcode</a>
         </div>
     </footer>
-      	
-    <!--div class="container">
-         <form class="km-filter-form custom-filter">
-         	<div class="km-filter-wrap">
-            </div>
-        </form> 
-        <div data-role="scroller" class="scroller-content">
-            <ul data-role="listview" data-auto-bind="false" data-style="inset" data-template="homeModelTemplate" data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" data-pull-to-refresh="true" data-endless-scroll="false">
-        </div>
-    </div-->
-
     <div id="scroller" data-role="scroller">
+		<a name="top"></a>
         <ul id="listview" 
             data-role="listview"
             data-filter="true"
-            data-filterable="{
-            	field: 'bonnr', 
-                operator: 'contains',
-				placeholder: 'Search...',
-				id: 'search',
-                       
-            }",
+            data-filterable="{field: 'bonnr', operator: 'contains', placeholder: 'Search...', id: 'search'}",
             data-style="inset" 
             data-template="homeModelTemplate" 
             data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" 
@@ -53,7 +32,6 @@
     <!-- START_CUSTOM_CODE_homeModel -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
     <!-- END_CUSTOM_CODE_homeModel -->
-
 
     <script type="text/x-kendo-template" id="homeModelTemplate">
             <div class="image-with-text">
@@ -88,16 +66,9 @@
         background-color:#e15613;
         color:#fff;
       }
+
     </style>
     </div>
     <script>
-     
-        
-        $(document).ready(function() {    
-            //$("input[type='search']").type = "number";
-            //$("input[type='search']").id = "search";
-			//$("input[type='search']").data-bind = "{events:{input: homeModel.searchChange}";
-
-        });
-    
+        $(document).ready(function() {});
     </script>

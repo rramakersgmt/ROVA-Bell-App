@@ -7,6 +7,11 @@ app.home = kendo.observable({
        	if ( fldSearch ) {
 	   		fldSearch.id="search";
 	   		fldSearch.type="number";
+            fldSearch.oninput= function(e) {
+                setTimeout(function() {
+		            $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
+                }, 100);                
+			};
     	}
 	}
 });
@@ -110,23 +115,20 @@ app.home = kendo.observable({
                         prijs:			{type: "number"},
                     },
                 },
-
             },
             change: function (e) {
-                
            		homeModel.set("afvalcodes", this.view());
-                
             }
-        }, 
+        },
 
         afvalDataSource = new kendo.data.DataSource(afvalDataSourceOptions),
         wegingDataSource = new kendo.data.DataSource(wegingenDataSourceOptions),
         homeModel = kendo.observable({
             gotoSearch: function (e) {
                 $("#search").focus();
-                //$("#scroller").data("kendoMobileScroller").scrollTo(0, 0);
-$(window).scrollTop(100);
-
+                setTimeout(function() {
+	                $("#scroller").data("kendoMobileScroller").scrollTo(0, 0);
+                }, 500);
             },
             scanBack: function (e) {
                 homeModel.scan(false, false);
@@ -164,13 +166,6 @@ $(window).scrollTop(100);
                                         break;
                                     }
                                 }
-
-                                /*alert("We got a barcode\n" +
-                                      "Result: " + result.text + "\n" +
-                                      "Format: " + result.format + "\n" +
-                                      "Cancelled: " + result.cancelled + "\n" +
-                                      "uid: " + uid);*/
-                                
                                 if (uid === -1) {
                                     return;
                                 }
@@ -212,28 +207,6 @@ $(window).scrollTop(100);
             afvalcodes: [],
             wegingDataSource: wegingDataSource,
             afvalDataSource: afvalDataSource,
-
-            searchChange: function(e) {
-                setTimeout(function() {
-                    var searchVal = e.target.value,
-                        searchFilter,
-                        model = parent.get('homeModel'),
-                        wegingDataSource = model.get('wegingDataSource');
-
-                    if (searchVal) {
-                        searchFilter = {
-                            field: 'bonnr',
-                            operator: 'contains',
-                            value: searchVal
-                        };
-                        wegingDataSource.filter(searchFilter);
-                    } else {
-                        wegingDataSource.filter({});
-                        $("#search").blur();
-                    }
-		            $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
-                }, 100);
-            },
             itemClick: function(e) {
                 var afvalDataSource = homeModel.get('afvalDataSource');
                 
@@ -389,10 +362,7 @@ $(window).scrollTop(100);
     }));
 
     parent.set('homeModel', homeModel);
-
-    parent.set('onShow', function(e) {
-
-    });
+    parent.set('onShow', function(e) {});
 })(app.home);
 
 // START_CUSTOM_CODE_homeModel
