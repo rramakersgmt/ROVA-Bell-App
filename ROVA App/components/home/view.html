@@ -16,7 +16,7 @@
         </div>
     </footer>
     <div id="scroller" data-role="scroller">
-		<a name="top"></a>
+		<a name="top" id="top"></a>
         <ul id="listview"
             data-role="listview"
             data-filter="true"
@@ -33,12 +33,15 @@
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
     <!-- END_CUSTOM_CODE_homeModel -->
 
-    <script type="text/x-kendo-template" id="homeModelTemplate">
-            <div class="image-with-text">
-                <h3>#: data['bonnr'] #</h3>
-
-            </div>
-            <p class="editableListItem"><span style="width: 50px;">Afval</span><span align="right" style="width: 210px;"">#: data['afval_omschr'] #</span><span style="width: 10px;" class="km-icon km-details"></span></p>
+    <script type="text/x-kendo-template" id="homeModelTemplate"
+        <div class="image-with-text" style="color:red;">
+    	#if(special){#
+            <h3>#: data['bonnr'] # <img src="styles/icons/warning.png"></h3>	    
+		#}else{#
+            <h3>#: data['bonnr'] # </h3>	    
+		#}#
+        </div>
+        <p class="editableListItem"><span style="width: 50px;">#: data['afval_type'] #</span><span align="right" style="width: 210px;">#: data['afval_omschr'] #</span><span style="width: 10px;" class="km-icon km-details"></span></p>
     </script>
     <style scoped>
       .container {

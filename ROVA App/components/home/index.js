@@ -84,6 +84,7 @@ app.home = kendo.observable({
                         afval:   		{type: "number", hidden: true},
                         afval_type: 	{type: "string"},
                         afval_omschr: 	{type: "string"},
+                        special:		{type: "number"},
                         afval_prijs:	{type: "number"},
                         quotum:     	{type: "number"},
                         inweging:   	{type: "number"},
@@ -126,6 +127,7 @@ app.home = kendo.observable({
         homeModel = kendo.observable({
             gotoSearch: function (e) {
                 $("#search").focus();
+	                console.log($("#scroller").data("kendoMobileScroller"));
                 setTimeout(function() {
 	                $("#scroller").data("kendoMobileScroller").scrollTo(0, 0);
                 }, 500);
@@ -240,9 +242,10 @@ app.home = kendo.observable({
             this.set("fldPrijsNieuw", null);
         },
         onBackClick: function(e) {
-			var wegingDataSourcee = homeModel.get('wegingDataSource');
+			var itemData = this.get('itemData'),
+            	wegingDataSourcee = homeModel.get('wegingDataSource');
 
-            wegingDataSource.cancelChanges();
+            wegingDataSource.cancelChanges(itemData);
         },
         onSaveClick: function(e) {
 			var itemData = this.get('itemData'),
