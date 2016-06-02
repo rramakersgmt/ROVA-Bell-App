@@ -239,6 +239,11 @@ app.home = kendo.observable({
             this.set('itemData', itemData);
             this.set("fldPrijsNieuw", null);
         },
+        onBackClick: function(e) {
+			var wegingDataSourcee = homeModel.get('wegingDataSource');
+
+            wegingDataSource.cancelChanges();
+        },
         onSaveClick: function(e) {
 			var itemData = this.get('itemData'),
                 wegingDataSourcee = homeModel.get('wegingDataSource');
