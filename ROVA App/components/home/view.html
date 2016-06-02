@@ -20,7 +20,7 @@
         <ul id="listview"
             data-role="listview"
             data-filter="true"
-            data-filterable="{field: 'bonnr', operator: 'contains', placeholder: 'Search...', id: 'search'}",
+            data-filterable="{field: 'search', operator: 'contains', placeholder: 'Search...', id: 'search'}",
             data-style="inset" 
             data-template="homeModelTemplate" 
             data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" 
@@ -31,15 +31,16 @@
 
     <!-- START_CUSTOM_CODE_homeModel -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
-    <!-- END_CUSTOM_CODE_homeModel -->
+    <!-- END_CUSTOM_CODE_homeModel --> 
 
     <script type="text/x-kendo-template" id="homeModelTemplate"
         <div class="image-with-text" style="color:red;">
     	#if(special){#
-            <h3>#: data['bonnr'] # <img src="styles/icons/warning.png"></h3>	    
-		#}else{#
+            <h3>#: data['bonnr'] # <img src="styles/icons/warning.png" style="width: 17px;"></h3>
+    	#}else{#
             <h3>#: data['bonnr'] # </h3>	    
 		#}#
+        <h4> #: data['postcode'] # #: data['plaats'] # </h4>
         </div>
         <p class="editableListItem"><span style="width: 50px;">#: data['afval_type'] #</span><span align="right" style="width: 210px;">#: data['afval_omschr'] #</span><span style="width: 10px;" class="km-icon km-details"></span></p>
     </script>
@@ -73,5 +74,8 @@
     </style>
     </div>
     <script>
-        $(document).ready(function() {});
+        
+        $(document).ready(function() {
+            
+        });
     </script>

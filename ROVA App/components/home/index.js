@@ -6,13 +6,16 @@ app.home = kendo.observable({
         var fldSearch = $("input[type='search']")[0];
        	if ( fldSearch ) {
 	   		fldSearch.id="search";
-	   		fldSearch.type="number";
+	   		//fldSearch.type="number";
             fldSearch.oninput= function(e) {
+                
                 setTimeout(function() {
-		            $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
+
+                    $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
                 }, 100);                
 			};
     	}
+
 	}
 });
 
@@ -76,6 +79,9 @@ app.home = kendo.observable({
             schema: {
                 model: {
                     id: "hiddenkey",
+                                            fldsearch:		function(e) {
+          					return this.get("bonnr") + this.get("postcode");
+        				},
                     fields: {
                         hiddenkey: 		{type: "number", hidden: true},
                         bonnr: 			{type: "string"},
@@ -91,6 +97,7 @@ app.home = kendo.observable({
                         straat:     	{type: "string"},
                         plaats:     	{type: "string"},
                         gemeente:   	{type: "string"},
+                        search:			{type: "string"},
                     },
                 },
             },
@@ -127,7 +134,6 @@ app.home = kendo.observable({
         homeModel = kendo.observable({
             gotoSearch: function (e) {
                 $("#search").focus();
-	                console.log($("#scroller").data("kendoMobileScroller"));
                 setTimeout(function() {
 	                $("#scroller").data("kendoMobileScroller").scrollTo(0, 0);
                 }, 500);
