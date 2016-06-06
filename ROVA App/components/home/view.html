@@ -33,49 +33,24 @@
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
     <!-- END_CUSTOM_CODE_homeModel --> 
 
-    <script type="text/x-kendo-template" id="homeModelTemplate"
+    <script type="text/x-kendo-template" id="homeModelTemplate">
         <div class="image-with-text" style="color:red;">
-    	#if(special){#
-            <h3>#: data['bonnr'] # <img src="styles/icons/warning.png" style="width: 17px;"></h3>
-    	#}else{#
-            <h3>#: data['bonnr'] # </h3>	    
-		#}#
-        <h4> #: data['postcode'] # #: data['plaats'] # </h4>
+        <h3>#: data['bonnr'] # #if(special){# <img src="styles/icons/warning.png" style="width: 17px;">#}# </h3>
+        <h4>#: data['postcode'] # #: data['plaats'] # </h4>
         </div>
         <p class="editableListItem"><span style="width: 50px;">#: data['afval_type'] #</span><span align="right" style="width: 210px;">#: data['afval_omschr'] #</span><span style="width: 10px;" class="km-icon km-details"></span></p>
     </script>
-    <style scoped>
-      .container {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        display: -moz-box;
-        -moz-box-orient: vertical;
-      }
-
-      #scroller-view .scroller-content {
-        -webkit-box-flex:1;
-        -moz-box-flex: 1;
-      }
-      .search {
-        -webkit-box-flex: 0%; /* setting the search div to get 0% of the remaining window value  */
-        -moz-box-flex:  0%;
-      }
-      .static{
-        -webkit-box-flex: 0%; /* setting the static div to get 0% of the remaining window value  */
-        -moz-box-flex:  0%;
-        line-height:50px;
-        vertical-align:middle;
-        text-align:center;
-        font-size:18px;
-        background-color:#e15613;
-        color:#fff;
-      }
-
+    <style>
     </style>
     </div>
     <script>
-        
         $(document).ready(function() {
-            
+		$("#search").keyup(function (e) {
+            var filterString = e.target.value;
+            alert(filterString);
+            $("#listview").data("kendoMobileListView").dataSource.filter(
+                { field: "search", operator: "contains", value: filterString }
+            );
+        });            
         });
     </script>

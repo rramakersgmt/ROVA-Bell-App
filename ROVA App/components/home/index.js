@@ -15,7 +15,6 @@ app.home = kendo.observable({
                 }, 100);                
 			};
     	}
-
 	}
 });
 
@@ -24,7 +23,7 @@ app.home = kendo.observable({
 
 // END_CUSTOM_CODE_home
 (function(parent) {
-    if (localStorage["app_data"] == undefined) {
+    if (localStorage["app_data"] === undefined) {
         var appData = [
             {
                 id: 0, 
@@ -35,7 +34,7 @@ app.home = kendo.observable({
             }
         ];
         localStorage["app_data"] = JSON.stringify(appData);
-    };
+    }
 
     var appLocalData = JSON.parse(localStorage["app_data"]),
         url=appLocalData[0].server,
@@ -64,12 +63,12 @@ app.home = kendo.observable({
                 },
             },
             change: function (e) {
-                if (e.action != "itemchange") {
+                if (e.action !== "itemchange") {
 	            	$(".km-badge")[0].innerHTML=e.items.length;
             	}
             },
             requestEnd: function (e) {
-                if (e.type != "read") {
+                if (e.type !== "read") {
                     // refresh the grid
 
                     e.sender.read();
@@ -79,25 +78,22 @@ app.home = kendo.observable({
             schema: {
                 model: {
                     id: "hiddenkey",
-                                            fldsearch:		function(e) {
-          					return this.get("bonnr") + this.get("postcode");
-        				},
                     fields: {
-                        hiddenkey: 		{type: "number", hidden: true},
-                        bonnr: 			{type: "string"},
-                        postcode: 		{type: "string"},
-                        datum:			{type: "string"},
-                        afval:   		{type: "number", hidden: true},
+                        hiddenkey: 	 {type: "number", hidden: true},
+                        bonnr: 		 {type: "string"},
+                        postcode: 	  {type: "string"},
+                        datum:		  {type: "string"},
+                        afval:   	   {type: "number", hidden: true},
                         afval_type: 	{type: "string"},
-                        afval_omschr: 	{type: "string"},
+                        afval_omschr:   {type: "string"},
                         special:		{type: "number"},
                         afval_prijs:	{type: "number"},
                         quotum:     	{type: "number"},
                         inweging:   	{type: "number"},
                         straat:     	{type: "string"},
-                        plaats:     	{type: "string"},
-                        gemeente:   	{type: "string"},
-                        search:			{type: "string"},
+                        plaats:         {type: "string"},
+                        gemeente:       {type: "string"},
+                        search:         {type: "string"},
                     },
                 },
             },
@@ -168,7 +164,7 @@ app.home = kendo.observable({
                                     afval_type="";
 
                                 for (var x = 0; x < view.length; x++) {
-                                    if (view[x].hiddenkey == result.text) {
+                                    if (view[x].hiddenkey === result.text) {
                                         uid = view[x].uid;
                                         afval_type = view[x].afval_type;
                                         break;
@@ -249,13 +245,13 @@ app.home = kendo.observable({
         },
         onBackClick: function(e) {
 			var itemData = this.get('itemData'),
-            	wegingDataSourcee = homeModel.get('wegingDataSource');
+            	wegingDataSource = homeModel.get('wegingDataSource');
 
             wegingDataSource.cancelChanges(itemData);
         },
         onSaveClick: function(e) {
 			var itemData = this.get('itemData'),
-                wegingDataSourcee = homeModel.get('wegingDataSource');
+                wegingDataSource = homeModel.get('wegingDataSource');
 
             wegingDataSource.one('sync', function(e) {
                 app.mobileApp.navigate('#:back');
@@ -273,7 +269,7 @@ app.home = kendo.observable({
             var view = kendo.data.Query.process(afvalDataSource.data()).data
 
             for (var x = 0; x < view.length; x++) {
-                if (view[x].afval_id == itemData.afval) {
+                if (view[x].afval_id = itemData.afval) {
 		            this.set("fldPrijsNieuw", view[x].prijs);
                     break;
                 }
@@ -282,8 +278,8 @@ app.home = kendo.observable({
     }));
 
     parent.set('settingsViewModel', kendo.observable({
-        fldserver: 	appLocalData[0].server,
-        fldlogin:	appLocalData[0].login,
+        fldserver:  appLocalData[0].server,
+        fldlogin:   appLocalData[0].login,
         fldpassword:appLocalData[0].password,
         login: function(e) {
             var url=this.get("fldserver"),
@@ -332,7 +328,7 @@ app.home = kendo.observable({
                 },
                 async: false
             });
-            this.set("isLoggedIn", (appLocalData[0].sid != ""));
+            this.set("isLoggedIn", (appLocalData[0].sid !== ""));
         },
         logout: function(e) {         
             appLocalData[0].sid = "";
@@ -368,10 +364,10 @@ app.home = kendo.observable({
                 },
                 async: false
             });
-            this.set("isLoggedIn", (appLocalData[0].sid != ""));
+            this.set("isLoggedIn", (appLocalData[0].sid !== ""));
         },
         isLoggedIn: function() {
-            return (appLocalData[0].sid != "");
+            return (appLocalData[0].sid !== "");
         },
     }));
 
