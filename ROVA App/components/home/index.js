@@ -15,12 +15,12 @@ app.home = kendo.observable({
                     $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
                 }, 100);                
 			};
-    	};
+    	}
 
         var appLocalData = JSON.parse(localStorage["app_data"]);
         if (appLocalData[0].sid === "") {
             app.mobileApp.navigate('components/home/settings.html');       
-        };    
+        }    
     }
 });
 
