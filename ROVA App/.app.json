@@ -71,13 +71,6 @@
   "dataProviders": [
     {
       "type": "kendo-ui-mobile:dataProvider",
-      "name": "clearweighWegingen",
-      "title": "Wegingen",
-      "source": "json",
-      "url": "http://clearweigh.gmt.nl/data/wegingen"
-    },
-    {
-      "type": "kendo-ui-mobile:dataProvider",
       "name": "wegingen",
       "title": "wegingen",
       "source": "json",

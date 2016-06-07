@@ -4,7 +4,8 @@ app.home = kendo.observable({
     onShow: function() {},
     afterShow: function() {
         var fldSearch = $("input[type='search']")[0];
-       	if ( fldSearch ) {
+
+        if ( fldSearch ) {
 	   		fldSearch.id="search";
 	   		//fldSearch.type="number";
             fldSearch.oninput= function(e) {
@@ -14,8 +15,13 @@ app.home = kendo.observable({
                     $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
                 }, 100);                
 			};
-    	}
-	}
+    	};
+
+        var appLocalData = JSON.parse(localStorage["app_data"]);
+        if (appLocalData[0].sid === "") {
+            app.mobileApp.navigate('components/home/settings.html');       
+        };    
+    }
 });
 
 // START_CUSTOM_CODE_home
@@ -121,7 +127,7 @@ app.home = kendo.observable({
                 },
             },
             change: function (e) {
-           		homeModel.set("afvalcodes", this.view());
+           	homeModel.set("afvalcodes", this.view());
             }
         },
 
@@ -233,7 +239,7 @@ app.home = kendo.observable({
             },
             currentItem: null
         });
-
+    
     parent.set('editItemViewModel', kendo.observable({
         onShow: function(e) {
             var itemUid = e.view.params.uid,
@@ -358,9 +364,7 @@ app.home = kendo.observable({
                 url: url + "logout",
                 statusCode: {
                     404:function() { navigator.notification.alert("Server niet gevonden"); },
-                    200:function() { 
-                        navigator.notification.alert("Uitgelogd"); 
-                    },
+                    200:function() { navigator.notification.alert("Uitgelogd");            },
                 },
                 async: false
             });

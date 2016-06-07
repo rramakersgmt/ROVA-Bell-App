@@ -2,7 +2,7 @@
     <header data-role="header">
         <div data-role="navbar" class="header-text">
             <span style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; display: block; margin-left: 70px; margin-right: 70px;" data-role="view-title">Settings</span>
-            <a data-role="backbutton" data-align="left">Cancel</a>
+            <a data-role="backbutton" data-align="left" data-bind="visible: isLoggedIn">Cancel</a>
         </div>
     </header>
 
@@ -32,16 +32,29 @@
           	<div>
                 <ul class="fieldlist" style="padding-left: 10px;" data-style="inset">
                     <h3>Server</h3> 
-                    <input id="fldserver" 	data-bind="value:fldserver,   disabled:isLoggedIn"   class="k-textbox" type="text" style="width:300px;"/>
+                    <input id="fldserver"   data-bind="value:fldserver,   disabled:isLoggedIn" class="k-textbox" type="text" style="width:300px;"/>
                     <h3>Login</h3> 
-                    <input id="fldlogin" 	data-bind="value:fldlogin,    disabled:isLoggedIn"    class="k-textbox" type="text"/>
+                    <input id="fldlogin"    data-bind="value:fldlogin,    disabled:isLoggedIn" class="k-textbox" type="text"/>
                     <h3>Wachtwoord</h3> 
                     <input id="fldpassword" data-bind="value:fldpassword, disabled:isLoggedIn" class="k-textbox" type="password"/>
                 </ul>
+                   
 		    </div>
+            <div id="footer" class="center">
+                  <img src="styles/icons/gmt.png" style="padding-top: 120px;">
+                </div>
         </form>
         <!-- START_CUSTOM_CODE_editableListForm11 -->
-
+<style>
+.center {
+    margin: auto;
+    width: 70%;
+    padding: 0px;
+    bottom:80px;
+}
+    
+    
+</style>
         <!-- END_CUSTOM_CODE_editableListForm11 -->
 	</div>	
 

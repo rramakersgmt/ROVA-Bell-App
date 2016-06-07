@@ -14,7 +14,7 @@
             });
         });
     };
-
+    
     if (window.cordova) {
         document.addEventListener('deviceready', function() {
             if (navigator && navigator.splashscreen) {

@@ -14,6 +14,8 @@
     <script src="kendo/js/kendo.mobile.min.js"></script>
     <script src="kendo/js/kendo.culture.nl-NL.js"></script>
     <script src="app.js"></script>
+    <meta http-equiv="Content-Security-Policy">
+
 </head>
 
 <body id="kendoUiMobileApp">
@@ -24,18 +26,6 @@
 	<script>
         kendo.culture("nl-NL");
         
-        /*if (localStorage["app_data"] == undefined) {
-            var appData = [
-                {
-                    id: 0, 
-                    login:"weger", 
-                    password: "weger", 
-                    server: "http://clearweigh.gmt.nl/demo/",
-                    sid: ""
-                }
-            ];
-            localStorage["app_data"] = JSON.stringify(appData);
-        };*/
 	</script>
     <!-- END_CUSTOM_CODE_kendoUiMobileApp -->
 </body>

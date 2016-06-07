@@ -23,7 +23,8 @@
             data-filterable="{field: 'search', operator: 'contains', placeholder: 'Search...', id: 'search'}",
             data-style="inset" 
             data-template="homeModelTemplate" 
-            data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick} }" 
+            data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick}}" 
+            data-auto-bind="false"
             data-pull-to-refresh="true" 
             data-endless-scroll="false">
         </ul>
@@ -31,7 +32,7 @@
 
     <!-- START_CUSTOM_CODE_homeModel -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
-    <!-- END_CUSTOM_CODE_homeModel --> 
+    <!-- END_CUSTOM_CODE_homeModel -->
 
     <script type="text/x-kendo-template" id="homeModelTemplate">
         <div class="image-with-text" style="color:red;">
@@ -45,12 +46,5 @@
     </div>
     <script>
         $(document).ready(function() {
-		$("#search").keyup(function (e) {
-            var filterString = e.target.value;
-            alert(filterString);
-            $("#listview").data("kendoMobileListView").dataSource.filter(
-                { field: "search", operator: "contains", value: filterString }
-            );
-        });            
         });
     </script>

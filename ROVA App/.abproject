@@ -47,5 +47,6 @@
     "cordova-plugin-globalization",
     "cordova-plugin-whitelist",
     "org.apache.cordova.labs.keyboard"
-  ]
+  ],
+  "iOSDeploymentTarget": "6.0"
 }
