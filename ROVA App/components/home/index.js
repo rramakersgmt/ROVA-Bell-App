@@ -170,7 +170,7 @@ app.home = kendo.observable({
                                     afval_type="";
 
                                 for (var x = 0; x < view.length; x++) {
-                                    if (view[x].hiddenkey === result.text) {
+                                    if (view[x].hiddenkey === Number(result.text)) {
                                         uid = view[x].uid;
                                         afval_type = view[x].afval_type;
                                         break;
