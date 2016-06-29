@@ -225,6 +225,12 @@ app.home = kendo.observable({
                 
                 app.mobileApp.navigate('#components/home/edit.html?uid=' + e.dataItem.uid);
             },
+            refresh : function(e) {
+                var wegingDataSource = app.home.homeModel.get("wegingDataSource");
+
+                wegingDataSource.read();
+                $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
+            },
             detailsShow: function(e) {
                 var item = e.view.params.uid,
                     wegingDataSource = homeModel.get('wegingDataSource'),

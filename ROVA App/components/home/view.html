@@ -11,7 +11,8 @@
     </header>
     <footer data-role="footer">
         <div data-role="tabstrip">
-            <a id="btnBadge" data-role="button" data-badge="0" data-bind="click: homeModel.gotoSearch" data-icon="search">Search</a>
+            <a id="btnBadge" data-role="button" data-badge="0" data-bind="click: homeModel.gotoSearch" data-icon="search">Zoek</a>
+            <a data-role="button" data-bind="click: homeModel.refresh" data-icon="refresh">Ververs</a>
             <a data-role="button" data-bind="click: homeModel.scanBack" data-icon="camera">Scan Barcode</a>
         </div>
     </footer>
@@ -20,7 +21,7 @@
         <ul id="listview"
             data-role="listview"
             data-filter="true"
-            data-filterable="{field: 'search', operator: 'contains', placeholder: 'Search...', id: 'search'}",
+            data-filterable="{field: 'search', operator: 'contains', placeholder: 'Zoek...', id: 'search'}",
             data-style="inset" 
             data-template="homeModelTemplate" 
             data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick}}" 
