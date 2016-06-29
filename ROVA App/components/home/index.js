@@ -7,7 +7,6 @@ app.home = kendo.observable({
 
         if ( fldSearch ) {
 	   		fldSearch.id="search";
-	   		//fldSearch.type="number";
             fldSearch.oninput= function(e) {
                 
                 setTimeout(function() {
@@ -18,9 +17,12 @@ app.home = kendo.observable({
     	}
 
         var appLocalData = JSON.parse(localStorage["app_data"]);
+
         if (appLocalData[0].sid === "") {
             app.mobileApp.navigate('components/home/settings.html');       
-        }    
+        } else {
+            app.home.homeModel.refresh();
+        }
     }
 });
 
@@ -45,6 +47,31 @@ app.home = kendo.observable({
     var appLocalData = JSON.parse(localStorage["app_data"]),
         url=appLocalData[0].server,
         wegingenDataSourceOptions = {
+            error: function(e) {
+                var wegingDataSource = app.home.homeModel.get("wegingDataSource"),
+			    	afvalDataSource = app.home.homeModel.get("afvalDataSource"); 
+                
+                appLocalData[0].password = "";
+                appLocalData[0].sid = "";
+                localStorage["app_data"] = JSON.stringify(appLocalData);
+                app.home.settingsViewModel.set("fldpassword", "");
+                app.home.settingsViewModel.set("isLoggedIn", (appLocalData[0].sid !== ""));
+                e.preventDefault();
+
+                alert(e.xhr.status + ":" + e.errorThrown);
+                
+                wegingDataSource.options.transport.read.data="";
+                wegingDataSource.options.transport.read.url="";
+                wegingDataSource.options.transport.update.data="";
+                wegingDataSource.options.transport.update.url="";
+                afvalDataSource.options.transport.read.data="";
+                afvalDataSource.options.transport.read.url="";
+                wegingDataSource.data([]);
+
+                setTimeout(function() {
+    	            app.mobileApp.navigate('components/home/settings.html');       
+                }, 1000);
+            },
             transport: {
                 read: {
                     url: url + "wegingen",
@@ -53,12 +80,6 @@ app.home = kendo.observable({
                     dataType: "json",
                     cache: false,
                     beforeSend: function(req) {
-                        /*
-                        var d = new Date();
-                        d.setTime(d.getTime() + (7*24*60*60*1000));
-                        var expires = "expires="+ d.toUTCString();
-                        document.cookie = "sid=" + appLocalData[0].sid + "; " + expires;
-                        */
                     }, 
                 },
                 update: {
@@ -69,27 +90,36 @@ app.home = kendo.observable({
                 },
             },
             change: function (e) {
+                function checkTime(i) {
+                    return (i < 10) ? "0" + i : i;
+                }                
                 if (e.action !== "itemchange") {
+                    var today = new Date(),
+                        h = checkTime(today.getHours()),
+                        m = checkTime(today.getMinutes());
+            
+                    $("#title")[0].innerHTML= "Wegingen - " + h + ":" + m;
 	            	$(".km-badge")[0].innerHTML=e.items.length;
             	}
             },
             requestEnd: function (e) {
-                if (e.type !== "read") {
+                //alert(e.type);
+                //if (e.type !== "read") {
                     // refresh the grid
 
-                    e.sender.read();
-                }
+                //    e.sender.read();
+                //}
             },
             // describe the result format
             schema: {
                 model: {
                     id: "hiddenkey",
                     fields: {
-                        hiddenkey: 	 {type: "number", hidden: true},
-                        bonnr: 		 {type: "string"},
-                        postcode: 	  {type: "string"},
-                        datum:		  {type: "string"},
-                        afval:   	   {type: "number", hidden: true},
+                        hiddenkey: 	    {type: "number", hidden: true},
+                        bonnr: 		    {type: "string"},
+                        postcode: 	    {type: "string"},
+                        datum:		    {type: "string"},
+                        afval:   	    {type: "number", hidden: true},
                         afval_type: 	{type: "string"},
                         afval_omschr:   {type: "string"},
                         special:		{type: "number"},
@@ -127,7 +157,7 @@ app.home = kendo.observable({
                 },
             },
             change: function (e) {
-           	homeModel.set("afvalcodes", this.view());
+           		homeModel.set("afvalcodes", this.view());
             }
         },
 

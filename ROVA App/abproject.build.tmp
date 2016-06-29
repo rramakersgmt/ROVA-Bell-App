@@ -1,0 +1,52 @@
+{
+  "ProjectName": "ROVA App",
+  "ProjectGuid": "8e761be3-be04-40b1-bd95-d741be1814f2",
+  "projectVersion": "1",
+  "AppIdentifier": "com.telerik.ROVAAppTest",
+  "DisplayName": "ROVA Zwolle App",
+  "Author": "",
+  "Description": "ROVA Zwolle App",
+  "BundleVersion": "1.0",
+  "AndroidVersionCode": "1",
+  "iOSDeviceFamily": [
+    "1",
+    "2"
+  ],
+  "iOSBackgroundMode": [],
+  "ProjectTypeGuids": "{070BCB52-5A75-4F8C-A973-144AF0EAFCC9}",
+  "FrameworkVersion": "4.0.0",
+  "AndroidPermissions": [
+    "android.permission.INTERNET"
+  ],
+  "DeviceOrientations": [
+    "Portrait"
+  ],
+  "AndroidHardwareAcceleration": "true",
+  "iOSStatusBarStyle": "Default",
+  "Framework": "Cordova",
+  "WP8TileTitle": "",
+  "WP8Publisher": "",
+  "WP8Capabilities": [
+    "ID_CAP_NETWORKING",
+    "ID_CAP_WEBBROWSERCOMPONENT"
+  ],
+  "WP8Requirements": [],
+  "WP8PublisherID": "{f836ee24-380a-43da-8b55-27fc8e82d8fe}",
+  "WP8ProductID": "{43776d1c-7638-4cce-8cc2-bc729e1335f2}",
+  "WPSdk": "8.0",
+  "WP8PackageIdentityName": "1234Telerik.ROVAAppTest",
+  "WP8WindowsPublisherName": "CN=Telerik",
+  "WP8SupportedResolutions": [
+    "ID_RESOLUTION_WVGA",
+    "ID_RESOLUTION_WXGA",
+    "ID_RESOLUTION_HD720P"
+  ],
+  "CorePlugins": [
+    "com.phonegap.plugins.barcodescanner@5.0.0",
+    "cordova-plugin-dialogs",
+    "cordova-plugin-globalization",
+    "cordova-plugin-whitelist",
+    "org.apache.cordova.labs.keyboard"
+  ],
+  "iOSDeploymentTarget": "6.0"
+}
