@@ -36,16 +36,22 @@
     <!-- END_CUSTOM_CODE_homeModel -->
 
     <script type="text/x-kendo-template" id="homeModelTemplate">
-        <div class="image-with-text" style="color:red;">
-        <h3>#: data['bonnr'] # #if(special){# <img src="styles/icons/warning.png" style="width: 17px;">#}# </h3>
-        <h4>#: data['postcode'] # #: data['plaats'] # </h4>
-        </div>
-        <p class="editableListItem"><span style="width: 50px;">#: data['afval_type'] #</span><span align="right" style="width: 210px;">#: data['afval_omschr'] #</span><span style="width: 10px;" class="km-icon km-details"></span></p>
+        <a>
+            <div class="image-with-text" style="color:red;">
+            <h3>#: data['bonnr'] # #if(special){# <img src="styles/icons/warning.png" style="width: 17px;">#}# </h3>
+            </div>
+            <p class="editableListItem">
+                <span style="width: auto">#: data['postcode'] # #= data['plaats'] # </span>
+                <span style="position: absolute; right: 0px; margin-right:10px;width: 40px;">#: data['afval_type'] #</span>
+            </p>
+            <p class="editableListItem" >
+                <span style="width: auto;">#= data['afval_omschr'] #</span>
+            </p>
+        </a>
     </script>
-    <style>
-    </style>
-    </div>
-    <script>
-        $(document).ready(function() {
-        });
-    </script>
+</div>
+
+<script>
+    $(document).ready(function() {
+    });
+</script>
