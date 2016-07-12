@@ -115,11 +115,11 @@ app.home = kendo.observable({
                 model: {
                     id: "hiddenkey",
                     fields: {
-                        hiddenkey: 	    {type: "number", hidden: true},
-                        bonnr: 		    {type: "string"},
-                        postcode: 	    {type: "string"},
-                        datum:		    {type: "string"},
-                        afval:   	    {type: "number", hidden: true},
+                        hiddenkey: 	 {type: "number", hidden: true},
+                        bonnr: 		 {type: "string"},
+                        postcode: 	  {type: "string"},
+                        datum:		  {type: "string"},
+                        afval:   	   {type: "number", hidden: true},
                         afval_type: 	{type: "string"},
                         afval_omschr:   {type: "string"},
                         special:		{type: "number"},
@@ -284,6 +284,7 @@ app.home = kendo.observable({
 
             this.set('itemData', itemData);
             this.set("fldPrijsNieuw", null);
+            this.set("PrijsNieuw", false);
         },
         onBackClick: function(e) {
 			var itemData = this.get('itemData'),
@@ -303,16 +304,18 @@ app.home = kendo.observable({
                 wegingDataSource.cancelChanges(itemData);
             });
             this.set("fldPrijsNieuw", null);
+            this.set("PrijsNieuw", false);
 
             wegingDataSource.sync();
         },
 		onChange: function(e) {
-            var itemData = this.get('itemData');
-            var view = kendo.data.Query.process(afvalDataSource.data()).data
-
+            var iiAfval = Number(e.currentTarget.selectedOptions[0].value),
+                view = kendo.data.Query.process(afvalDataSource.data()).data;
+            this.set("PrijsNieuw", true);
+            
             for (var x = 0; x < view.length; x++) {
-                if (view[x].afval_id = itemData.afval) {
-		            this.set("fldPrijsNieuw", view[x].prijs);
+                if (view[x].afval_id === iiAfval) {
+                    this.set("fldPrijsNieuw", view[x].prijs);
                     break;
                 }
             }

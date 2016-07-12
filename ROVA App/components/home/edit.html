@@ -14,73 +14,77 @@
                 <li class="form-content-item">
                     <p class="editableListItem">
                         <label><span>Bonnummer</span>
-                            <span align="right" data-bind="text: itemData.bonnr"></span>
+                            <span data-bind="text: itemData.bonnr"></span>
                         </label>           
                   	</p>
                     <p class="editableListItem">
                         <label><span>Datum</span>
-                            <span align="right" data-bind="text: itemData.datum"></span>
+                            <span data-bind="text: itemData.datum"></span>
                         </label>           
                   	</p>
                     <p class="editableListItem">
                         <label><span>Gewicht</span>
-                            <span align="right" data-format="####0 kg" data-bind="text: itemData.inweging"></span>
+                            <span style="width:100px;" align="right" data-format="####0 kg" data-bind="text: itemData.inweging"></span>
                         </label>           
                   	</p>
                     <p class="editableListItem">
                         <label><span>Quotum</span>
-                            <span align="right" data-format="##0 kg" data-bind="text: itemData.quotum"></span>
+                            <span style="width:100px;" align="right" data-format="####0 kg" data-bind="text: itemData.quotum"></span>
                         </label>           
                   	</p>
                     <p class="editableListItem">
                         <label><span>Postcode</span>
-                            <span align="right" data-bind="text: itemData.postcode"></span>
+                            <span data-bind="text: itemData.postcode"></span>
                         </label>           
                   	</p>
                     <p class="editableListItem">
                         <label><span>Plaats</span>
-                            <span align="right" data-bind="text: itemData.plaats"></span>
+                            <span data-bind="text: itemData.plaats"></span>
                         </label>           
                   	</p>
                     <p class="editableListItem">
                         <label><span>Gemeente</span>
-                            <span align="right" data-bind="text: itemData.gemeente"></span>
+                            <span data-bind="text: itemData.gemeente"></span>
                         </label>           
                   	</p>
                     <p class="editableListItem">
                         <label><span>Straat</span>
-                            <span align="right" data-bind="text: itemData.straat"></span>
+                            <span data-bind="text: itemData.straat"></span>
                         </label>           
                   	</p>
                     <p class="editableListItem">
                         <label><span>Categorie</span>
-                            <span align="right" data-bind="text: itemData.afval_type"></span>
+                            <span data-bind="text: itemData.afval_type"></span>
                         </label>           
                   	</p>
                     <p class="editableListItem">
-                        <label><span>Kilo tarief</span>
-                            <span align="right" data-format="c4" data-bind="text: itemData.afval_prijs"></span>
+                        <label><span>Kilogram tarief</span>
+                            <span data-format="c4" data-bind="text: itemData.afval_prijs"></span>
                         </label>           
                   	</p>
                 </li>
             </ul>
-            <ul data-role="listview" data-style="inset">
-                <li><div style="color:red">
-                    
+            <ul data-role="listview" >
+                <li>
                     <p class="editableListItem">
-						<label>
-                            <span style="width: 60px;">Afval</span>
-                        	<span><select data-value-field="afval_id" data-text-field="afval_omschr" data-role="dropdownlist" data-bind="source: homeModel.afvalcodes, value: itemData.afval, events: { select: onSelect, change: onChange }"></select> </span>
-                    	</label>
+                        <select height="auto" 
+                                style="left: 10px; width:90%; margin:0,5%,0,5%;" data-value-field="afval_id" 
+                                data-text-field="afval_omschr" 
+                                data-role="dropdownlist" 
+                                data-bind="source: homeModel.afvalcodes, 
+                                           value: itemData.afval, 
+                                           events: { select: onSelect, 
+                                                     change: onChange }"
+                        >
+                        </select> 
                   	</p>
-                    </div>
 				</li>
             </ul>
             <ul data-role="listview" data-style="inset">
-                <li data-bind="visible: fldPrijsNieuw">
+                <li data-bind="visible: PrijsNieuw">
                 	<p class="editableListItem">
-                        <label><span style="color:red">Nieuw kilo tarief</span>
-                            <span style="color:red" align="right" data-format="c4" data-bind="text: fldPrijsNieuw"></span>
+                        <label><span style="color:red">Nieuw kilogram tarief</span>
+                            <span style="color:red" data-format="c4" data-bind="text: fldPrijsNieuw"></span>
                         </label>           
                   	</p>
 				</li>
