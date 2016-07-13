@@ -1,27 +1,14 @@
-<div id="appSettings" data-model="app.home.settingsViewModel" data-reload="true" data-role="view" data-title="Instellingen">
+<div id="appSettings" data-model="app.home.settingsViewModel" data-reload="true" data-role="view" data-title="Update data">
     <header data-role="header">
         <div data-role="navbar" class="header-text">
-            <span style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; display: block; margin-left: 70px; margin-right: 70px;" data-role="view-title">Settings</span>
-            <a data-role="backbutton" data-align="left" data-bind="visible: isLoggedIn">Cancel</a>
+            <span style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; display: block; margin-left: 70px; margin-right: 70px;" data-role="view-title">Bestand</span>
+            <a data-role="backbutton" data-align="left">Cancel</a>
         </div>
     </header>
 
     <footer data-role="footer">
-        <style> 
-            .km-login:after,
-            .km-login:before
-            {
-                content: url("styles/icons/login.png");
-            }
-            .km-logout:after,
-            .km-logout:before 
-            {
-                content: url("styles/icons/logout.png");
-            }
-        </style>
         <div data-role="tabstrip">
-            <a class="k-button" data-icon="login"  data-role="button" data-bind="click: login,  invisible: isLoggedIn">Login</a>
-            <a class="k-button" data-icon="logout" data-role="button" data-bind="click: logout,   visible: isLoggedIn">Logout</a>
+            <a class="k-button" data-icon="downloads" data-role="button" data-bind="click: readFile">Lees bestand</a>
         </div>
     </footer>    
     
@@ -31,31 +18,28 @@
         <form>
           	<div>
                 <ul class="fieldlist" style="padding-left: 10px;" data-style="inset">
-                    <h3>Server</h3> 
-                    <input id="fldserver"   data-bind="value:fldserver,   disabled:isLoggedIn" class="k-textbox" type="text" style="width:300px;"/>
-                    <h3>Login</h3> 
-                    <input id="fldlogin"    data-bind="value:fldlogin,    disabled:isLoggedIn" class="k-textbox" type="text"/>
-                    <h3>Wachtwoord</h3> 
-                    <input id="fldpassword" data-bind="value:fldpassword, disabled:isLoggedIn" class="k-textbox" type="password"/>
+                    <input type="file" id="file" name="myfile">
+                    <input type="input" data-bind="value:bestand" class="k-textbox" style="width:300px;">
                 </ul>
-                   
 		    </div>
             <div id="footer" class="center">
-                  <img src="styles/icons/gmt.png" style="padding-top: 120px;">
-                </div>
+                  <!--img src="styles/icons/gmt.png" style="padding-top: 120px;"-->
+            </div>
         </form>
         <!-- START_CUSTOM_CODE_editableListForm11 -->
-<style>
-.center {
-    margin: auto;
-    width: 70%;
-    padding: 0px;
-    bottom:80px;
-}
-    
-    
-</style>
+        <style>
+            .center {
+                margin: auto;
+                width: 70%;
+                padding: 0px;
+                bottom:80px;
+            }
+        </style>
         <!-- END_CUSTOM_CODE_editableListForm11 -->
 	</div>	
-
+    <script>
+        $(document).ready(function(){
+            $(":file").css("background-color", "red");
+        });
+    </script>
 </div>

@@ -1,4 +1,4 @@
-<div data-role="view" data-title="Wegingen" data-layout="main" data-model="app.home" data-show="app.home.onShow" data-after-show="app.home.afterShow" data-stretch="true">
+<div data-role="view" data-title="Telefoonnummer lijst" data-layout="main" data-model="app.home" data-show="app.home.onShow" data-after-show="app.home.afterShow" data-stretch="true">
 
     <!-- START_CUSTOM_CODE_home -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
@@ -6,27 +6,26 @@
     <header data-role="header">
         <div data-role="navbar">
             <span id="title" data-role="view-title"></span>
-            <a data-align="right" data-icon="settings" data-role="button" class="nav-button" href="components/home/settings.html"></a>
+            <a data-align="right" data-icon="downloads" data-role="button" class="nav-button" href="components/home/settings.html"></a>
         </div>
     </header>
-    <footer data-role="footer">
+    <!--footer data-role="footer">
         <div data-role="tabstrip">
             <a id="btnBadge" data-role="button" data-badge="0" data-bind="click: homeModel.gotoSearch" data-icon="search">Zoek</a>
             <a data-role="button" data-bind="click: homeModel.refresh" data-icon="refresh">Ververs</a>
             <a data-role="button" data-bind="click: homeModel.scanBack" data-icon="camera">Scan Barcode</a>
         </div>
-    </footer>
+    </footer-->
     <div id="scroller" data-role="scroller">
 		<a name="top" id="top"></a>
         <ul id="listview"
             data-role="listview"
             data-filter="true"
-            data-filterable="{field: 'search', operator: 'contains', placeholder: 'Zoek...', id: 'search'}",
+            data-filterable="{field: 'Search', operator: 'contains', placeholder: 'Zoek...', id: 'search'}",
             data-style="inset" 
             data-template="homeModelTemplate" 
-            data-bind="{ source: homeModel.wegingDataSource, events: {click: homeModel.itemClick}}" 
+            data-bind="{source: homeModel.dataSource}" 
             data-auto-bind="false"
-            _data-pull-to-refresh="true" 
             data-endless-scroll="false">
         </ul>
     </div>
@@ -36,17 +35,16 @@
     <!-- END_CUSTOM_CODE_homeModel -->
 
     <script type="text/x-kendo-template" id="homeModelTemplate">
-        <a>
-            <div class="image-with-text" style="color:red;">
-            <h3>#: data['bonnr'] # #if(special){# <img src="styles/icons/warning.png" style="width: 17px;">#}# </h3>
-            </div>
-            <p class="editableListItem">
-                <span style="width: auto">#: data['postcode'] # #= data['plaats'] # </span>
-                <span style="position: absolute; right: 0px; margin-right:10px;width: 40px;">#: data['afval_type'] #</span>
-            </p>
+        <a>            
+            <h3>#: data['Groep'] # </h3>
             <p class="editableListItem" >
-                <span style="width: auto;">#= data['afval_omschr'] #</span>
+                <span style="width: auto;">#: data['Omschrijving'] #</span>
             </p>
+            <div class="image-with-text">
+                #if(Favoriet === "1"){# <a id="#: data['Telefoonnummer'] #" data-align="right" data-role="button" data-icon="favorites" data-bind="click: homeModel.delFavo"></a> #}#
+                #if(Favoriet === "0"){# <a id="#: data['Telefoonnummer'] #" data-align="right" data-role="button" data-icon="add" data-bind="click: homeModel.addFavo"></a> #}#
+                <a data-align="right" data-role="button" data-icon="phone" data-bind="click: homeModel.phoneCall" class="button button-positive">#: data['Telefoonnummer'] #</a>
+            </div>
         </a>
     </script>
 </div>

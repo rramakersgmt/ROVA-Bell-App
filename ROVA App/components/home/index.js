@@ -14,11 +14,11 @@ app.home = kendo.observable({
                     $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
                 }, 100);                
 			};
-    	}
+        }
 
         var appLocalData = JSON.parse(localStorage["app_data"]);
 
-        if (appLocalData[0].sid === "") {
+        if (appLocalData[0].bestand === "") {
             app.mobileApp.navigate('components/home/settings.html');       
         } else {
             app.home.homeModel.refresh();
@@ -31,391 +31,168 @@ app.home = kendo.observable({
 
 // END_CUSTOM_CODE_home
 (function(parent) {
+    function processData (allText) {
+        var dataNew = $.csv.toObjects(allText);
+        dataSource.filter({field: "Favoriet", operator:"eq", value: "1" });
+        var dataOld=dataSource.view();
+          
+        for (var x = 0; x < dataNew.length; x++) {
+            for (var j = 0; j < dataOld.length; j++) {
+                if (dataNew[x].Telefoonnummer === dataOld[j].Telefoonnummer) {
+                    dataNew[x].Favoriet = dataOld[j].Favoriet;
+                } 
+                if (dataNew[x].Favoriet !== "1") {
+                    dataNew[x].Favoriet = "0";
+                }
+            }
+            dataNew[x].Search = dataNew[x].Groep + dataNew[x].Telefoonnummer + dataNew[x].Omschrijving;
+            console.log(dataNew[x]);
+        }
+        localStorage["grid_data"] = JSON.stringify(dataNew);
+        dataSource.filter([]);
+    };
+
+    function setTestData(){
+        var testData = [
+          {Groep:"Groep 1", Omschrijving: "TEST1", Telefoonnummer: "06-185583481"},
+          {Groep:"Groep 3", Omschrijving: "TEST2", Telefoonnummer: "06-185583482"},
+          {Groep:"Groep 2", Omschrijving: "TEST3", Telefoonnummer: "06-185583483", Favoriet: "1"},
+          {Groep:"Groep 3", Omschrijving: "TEST4", Telefoonnummer: "06-185583484"},
+          {Groep:"Groep 1", Omschrijving: "TEST5", Telefoonnummer: "06-185583485"}  
+         ];
+        localStorage["grid_data"] = JSON.stringify(testData);
+    }    
+    
     if (localStorage["app_data"] === undefined) {
         var appData = [
             {
-                id: 0, 
-                login:"", 
-                password: "", 
-                server: "",
-                sid: ""
+                bestand: "",
             }
         ];
         localStorage["app_data"] = JSON.stringify(appData);
     }
-
+//    if (localStorage["grid_data"] === undefined) {
+        //setTestData();
+    //}
     var appLocalData = JSON.parse(localStorage["app_data"]),
-        url=appLocalData[0].server,
-        wegingenDataSourceOptions = {
-            error: function(e) {
-                var wegingDataSource = app.home.homeModel.get("wegingDataSource"),
-			    	afvalDataSource = app.home.homeModel.get("afvalDataSource"); 
-                
-                appLocalData[0].password = "";
-                appLocalData[0].sid = "";
-                localStorage["app_data"] = JSON.stringify(appLocalData);
-                app.home.settingsViewModel.set("fldpassword", "");
-                app.home.settingsViewModel.set("isLoggedIn", (appLocalData[0].sid !== ""));
-                e.preventDefault();
-
-                alert(e.xhr.status + ":" + e.errorThrown);
-                
-                wegingDataSource.options.transport.read.data="";
-                wegingDataSource.options.transport.read.url="";
-                wegingDataSource.options.transport.update.data="";
-                wegingDataSource.options.transport.update.url="";
-                afvalDataSource.options.transport.read.data="";
-                afvalDataSource.options.transport.read.url="";
-                wegingDataSource.data([]);
-
-                setTimeout(function() {
-    	            app.mobileApp.navigate('components/home/settings.html');       
-                }, 1000);
-            },
+        dataSource = new kendo.data.DataSource({
             transport: {
-                read: {
-                    url: url + "wegingen",
-                    type: "get",
-                    data: {dis: appLocalData[0].sid, usr: appLocalData[0].login},
-                    dataType: "json",
-                    cache: false,
-                    beforeSend: function(req) {
-                    }, 
-                },
-                update: {
-                    url: url + "wegingupdate",
-                    type: "get",
-                    data: {dis: appLocalData[0].sid, usr: appLocalData[0].login},
-                    dataType: "json",
-                },
-            },
-            change: function (e) {
-                function checkTime(i) {
-                    return (i < 10) ? "0" + i : i;
-                }                
-                if (e.action !== "itemchange") {
-                    var today = new Date(),
-                        h = checkTime(today.getHours()),
-                        m = checkTime(today.getMinutes());
-            
-                    $("#title")[0].innerHTML= "Wegingen - " + h + ":" + m;
-	            	$(".km-badge")[0].innerHTML=e.items.length;
-            	}
-            },
-            requestEnd: function (e) {
-                //alert(e.type);
-                //if (e.type !== "read") {
-                    // refresh the grid
-
-                //    e.sender.read();
-                //}
-            },
-            // describe the result format
-            schema: {
-                model: {
-                    id: "hiddenkey",
-                    fields: {
-                        hiddenkey: 	 {type: "number", hidden: true},
-                        bonnr: 		 {type: "string"},
-                        postcode: 	  {type: "string"},
-                        datum:		  {type: "string"},
-                        afval:   	   {type: "number", hidden: true},
-                        afval_type: 	{type: "string"},
-                        afval_omschr:   {type: "string"},
-                        special:		{type: "number"},
-                        afval_prijs:	{type: "number"},
-                        quotum:     	{type: "number"},
-                        inweging:   	{type: "number"},
-                        straat:     	{type: "string"},
-                        plaats:         {type: "string"},
-                        gemeente:       {type: "string"},
-                        search:         {type: "string"},
-                    },
-                },
-            },
-        },
-        afvalDataSourceOptions = {
-            transport: {
-                read: {
-                    url: url + "afval",
-                    data: {dis: appLocalData[0].sid, usr: appLocalData[0].login},
-                    type: "get",
-                    dataType: "json",
-                    cache: false,
-                 },
-            },
-            // describe the result format
-            schema: {
-                model: {
-                    id: "afval_id",
-                    fields: {
-                        afval_id:		{type: "number"},
-                        afval_code:		{type: "string"},
-                        afval_omschr: 	{type: "string"},
-                        prijs:			{type: "number"},
-                    },
-                },
-            },
-            change: function (e) {
-           		homeModel.set("afvalcodes", this.view());
-            }
-        },
-
-        afvalDataSource = new kendo.data.DataSource(afvalDataSourceOptions),
-        wegingDataSource = new kendo.data.DataSource(wegingenDataSourceOptions),
-        homeModel = kendo.observable({
-            gotoSearch: function (e) {
-                $("#search").focus();
-                setTimeout(function() {
-	                $("#scroller").data("kendoMobileScroller").scrollTo(0, 0);
-                }, 500);
-            },
-            scanBack: function (e) {
-                homeModel.scan(false, false);
-            },
-
-            scanBackFlip: function () {
-                homeModel.scan(false, true);
-            },
-
-            scanFront: function () {
-                homeModel.scan(true, false);
-            },
-
-            scanFrontFlip: function () {
-                homeModel.scan(true, true);
-            },
-
-            scan: function (preferFrontCamera, showFlipCameraButton) {
-                if (!homeModel.checkSimulator()) {
-                    cordova.plugins.barcodeScanner.scan(
-
-                        // success callback function
-                        function (result) {
-                            // wrapping in a timeout so the dialog doesn't free the app
-                            setTimeout(function() {
-
-                                var view = kendo.data.Query.process(wegingDataSource.data()).data,
-                                    uid = -1,
-                                    afval_type="";
-
-                                for (var x = 0; x < view.length; x++) {
-                                    if (view[x].hiddenkey === Number(result.text)) {
-                                        uid = view[x].uid;
-                                        afval_type = view[x].afval_type;
-                                        break;
-                                    }
-                                }
-                                if (uid === -1) {
-                                    return;
-                                }
-                                var afvalDataSource = homeModel.get('afvalDataSource');
-
-                                afvalDataSource.read({afval_type: afval_type});
-                                homeModel.set('afvalDataSource', afvalDataSource)
-
-                                app.mobileApp.navigate('#components/home/edit.html?uid=' + uid);
-                            }, 0);
-                        },
-
-                        // error callback function
-                        function (error) {
-                            navigator.notification.alert("Scanning failed: " + error);
-                        },
-
-                        // options objects
-                        {
-                            "preferFrontCamera" : preferFrontCamera, // default false
-                            "showFlipCameraButton" : showFlipCameraButton // default false
+                read: function(options){
+                    var localData = JSON.parse(localStorage["grid_data"]);
+                    for (var x = 0; x < localData.length; x++) {
+                        // Zoek velden samenvoegen
+                        localData[x].Search = localData[x].Groep + localData[x].Telefoonnummer + localData[x].Omschrijving;
+                        if (localData[x].Favoriet === undefined) {
+                            localData[x].Favoriet = "0";
                         }
-                    );
-                }
+                    }
+                    options.success(localData);
+                },
             },
-            
-            checkSimulator: function() {
-                if (window.navigator.simulator === true) {
-                    navigator.notification.alert('This plugin is not available in the simulator.');
-                    return true;
-                } else if (window.cordova === undefined) {
-                    navigator.notification.alert('Plugin not found. Maybe you are running in AppBuilder Companion app which currently does not support this plugin.');
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            
-            afvalcodes: [],
-            wegingDataSource: wegingDataSource,
-            afvalDataSource: afvalDataSource,
-            itemClick: function(e) {
-                var afvalDataSource = homeModel.get('afvalDataSource');
+            schema: {
+                model: {
+                    id: "Code",
+                    fields: {
+                        Omschrijving: {type: "string"},
+                        Groep:        {type: "string"},
+                        Telefoon:     {type: "string"},
+                        Favoriet:     {type: "string"},
+                        Search:       {type: "string"},
+                    }
+
+                },
                 
-                afvalDataSource.read({afval_type: e.dataItem.afval_type});
-				this.set('afvalDataSource', afvalDataSource)
-                
-                app.mobileApp.navigate('#components/home/edit.html?uid=' + e.dataItem.uid);
             },
-            refresh : function(e) {
-                var wegingDataSource = app.home.homeModel.get("wegingDataSource");
-
-                wegingDataSource.read();
-                $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
+            //group: { field: "Groep" },
+            sort: { 
+                field: "Favoriet", dir: "desc",
             },
-            detailsShow: function(e) {
-                var item = e.view.params.uid,
-                    wegingDataSource = homeModel.get('wegingDataSource'),
-                    itemModel = wegingDataSource.getByUid(item);
-
-                if (!itemModel.bonnr) {
-                    itemModel.bonnr = String.fromCharCode(160);
-                }
-
-                homeModel.set('currentItem', null);
-                homeModel.set('currentItem', itemModel);
-            },
-            currentItem: null
+            pageSize: 20
         });
-    
-    parent.set('editItemViewModel', kendo.observable({
-        onShow: function(e) {
-            var itemUid = e.view.params.uid,
-                wegingDataSource = homeModel.get('wegingDataSource'),
-                itemData = wegingDataSource.getByUid(itemUid);
 
-            this.set('itemData', itemData);
-            this.set("fldPrijsNieuw", null);
-            this.set("PrijsNieuw", false);
-        },
-        onBackClick: function(e) {
-			var itemData = this.get('itemData'),
-            	wegingDataSource = homeModel.get('wegingDataSource');
-
-            wegingDataSource.cancelChanges(itemData);
-        },
-        onSaveClick: function(e) {
-			var itemData = this.get('itemData'),
-                wegingDataSource = homeModel.get('wegingDataSource');
-
-            wegingDataSource.one('sync', function(e) {
-                app.mobileApp.navigate('#:back');
-            });
-
-            wegingDataSource.one('error', function() {
-                wegingDataSource.cancelChanges(itemData);
-            });
-            this.set("fldPrijsNieuw", null);
-            this.set("PrijsNieuw", false);
-
-            wegingDataSource.sync();
-        },
-		onChange: function(e) {
-            var iiAfval = Number(e.currentTarget.selectedOptions[0].value),
-                view = kendo.data.Query.process(afvalDataSource.data()).data;
-            this.set("PrijsNieuw", true);
-            
-            for (var x = 0; x < view.length; x++) {
-                if (view[x].afval_id === iiAfval) {
-                    this.set("fldPrijsNieuw", view[x].prijs);
-                    break;
-                }
-            }
-        },
-    }));
+//dataSource.filter({field: "Groep", operator:"eq", value: "Groep 2" });
 
     parent.set('settingsViewModel', kendo.observable({
-        fldserver:  appLocalData[0].server,
-        fldlogin:   appLocalData[0].login,
-        fldpassword:appLocalData[0].password,
-        login: function(e) {
-            var url=this.get("fldserver"),
-                logindata= {usr: this.get("fldlogin"), pwd: this.get("fldpassword")},
-				wegingDataSource = app.home.homeModel.get("wegingDataSource"),
-				afvalDataSource = app.home.homeModel.get("afvalDataSource");
-
-            $.ajax({
-                type: "POST",
-                url: url + "login",
-                dataType: "json",
-                timeout: 500,
-                data: logindata,
-                statusCode: {
-                    200:function(data) { 
-                        appLocalData[0].sid 	 = data[0].sid;
-                        appLocalData[0].server   = url;
-                        appLocalData[0].login    = logindata.usr;
-                        appLocalData[0].password = logindata.pwd;
-                        localStorage["app_data"] = JSON.stringify(appLocalData);
-						var transportdata= {dis: appLocalData[0].sid, usr: appLocalData[0].login}
-            
-						wegingDataSource.options.transport.read.data=transportdata;
-                        wegingDataSource.options.transport.read.url=url + "wegingen";
-						wegingDataSource.options.transport.update.data=transportdata;
-                        wegingDataSource.options.transport.update.url=url + "wegingupdate";
-						afvalDataSource.options.transport.read.data=transportdata;
-						afvalDataSource.options.transport.read.url=url + "afval";
-                    	navigator.notification.alert("Ingelogd");
-                        setTimeout(function() {
-                            wegingDataSource.read();
-	                        app.mobileApp.navigate('#:back');
-                        }, 1000);
-                    },
-                },
-                //complete: function(httpObj, textStatus, data){},
-                error: function (parsedjson, textStatus, errorThrown) {
-                    app.home.editItemViewModel.set("fldpassword", "");
-                    appLocalData[0].sid = "";
-                    appLocalData[0].password = "";
-                    localStorage["app_data"] = JSON.stringify(appLocalData);
-    			    var elem = document.getElementById("fldpassword");
-    				elem.value = "";
-                    
-                    navigator.notification.alert(parsedjson.statusText);
-                },
-                async: false
-            });
-            this.set("isLoggedIn", (appLocalData[0].sid !== ""));
-        },
-        logout: function(e) {         
-            appLocalData[0].sid = "";
+        dataSource: dataSource,
+        bestand:  appLocalData[0].bestand,
+        readFile: function(e) {
+console.log($(":file")[0].files[0]);
+            var url = $(":file")[0].value,
+                appLocalData = JSON.parse(localStorage["app_data"]);
+            if (url === "") {
+                url = this.get('bestand')
+            }
+            appLocalData[0].bestand = url;
+            this.set('bestand', url);
             localStorage["app_data"] = JSON.stringify(appLocalData);
-			var wegingDataSource = app.home.homeModel.get("wegingDataSource"),
-			    afvalDataSource = app.home.homeModel.get("afvalDataSource");            
-
-            var url=this.get("fldserver"); 
-            this.set("fldpassword", "");
-
-            appLocalData[0].password = "";
-            appLocalData[0].sid = "";
-            localStorage["app_data"] = JSON.stringify(appLocalData);
-
-            wegingDataSource.options.transport.read.data="";
-            wegingDataSource.options.transport.read.url="";
-			wegingDataSource.options.transport.update.data="";
-            wegingDataSource.options.transport.update.url="";
-			afvalDataSource.options.transport.read.data="";
-			afvalDataSource.options.transport.read.url="";
-		    var elem = document.getElementById("fldpassword");
-			elem.value = "";
-            wegingDataSource.data([]);
 
             $.ajax({
                 type: "GET",
-                url: url + "logout",
-                statusCode: {
-                    404:function() { navigator.notification.alert("Server niet gevonden"); },
-                    200:function() { navigator.notification.alert("Uitgelogd");            },
-                },
-                async: false
-            });
-            this.set("isLoggedIn", (appLocalData[0].sid !== ""));
-        },
-        isLoggedIn: function() {
-            return (appLocalData[0].sid !== "");
+                url: url,
+                dataType: "text",
+                success: function(data) {
+                    processData(data);
+                	navigator.notification.alert("Gegevens zijn ingelezen");
+                    setTimeout(function() {
+                        app.mobileApp.navigate('#:back');
+                    }, 1000);                    
+                }
+            });            
         },
     }));
+    
+    parent.set('homeModel', kendo.observable({
+        dataSource: dataSource,
+        refresh : function(e) {
+            var dataSource = app.home.homeModel.get("dataSource");
 
-    parent.set('homeModel', homeModel);
-    parent.set('onShow', function(e) {});
+            dataSource.read();
+            $("#scroller").data("kendoMobileScroller").animatedScrollTo(0, 0);
+        },
+/*        onSucces : function(e){
+            alert("Call Succes");
+        },
+        onError  : function(e){
+            alert("Call Error");
+        },*/
+        phoneCall: function(e) {
+            e.preventDefault();
+            window.open("tel:" + e.button[0].text);
+        },        
+        addFavo: function(e) {
+            dataSource.filter({field: "Telefoonnummer", operator:"eq", value: e.button[0].id});
+            var data=dataSource.view();
+            dataSource.filter([]);
+            data[0].Favoriet="1";
+            var data=dataSource.view();
+            localStorage["grid_data"] = JSON.stringify(data);
+            app.home.homeModel.refresh();
+        },
+        delFavo: function(e) {
+            dataSource.filter({field: "Telefoonnummer", operator:"eq", value: e.button[0].id});
+            var data=dataSource.view();
+            dataSource.filter([]);
+            data[0].Favoriet="0";
+            var data=dataSource.view();
+            localStorage["grid_data"] = JSON.stringify(data);
+            app.home.homeModel.refresh();
+        },
+        itemClick: function(e) {
+            alert("itemClick");
+            //e.dataItem.uid
+            //console.log(e.dataItem);
+            //window.open("tel:" + e.dataItem.Telefoon);            
+            //window.plugins.CallNumber.callNumber(onSuccess, onError, e.dataItem.Telefoon);
+            //alert("Bellen");
+            //app.mobileApp.navigate('tel:' +  e.dataItem.Telefoon);
+        },
+        /*gotoSearch: function (e) {
+            $("#search").focus();
+            setTimeout(function() {
+                $("#scroller").data("kendoMobileScroller").scrollTo(0, 0);
+            }, 500);
+        },*/
+    }));
 })(app.home);
 
 // START_CUSTOM_CODE_homeModel
